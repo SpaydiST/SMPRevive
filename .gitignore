@@ -24,3 +24,5 @@ server.properties
 docs/*
 !docs/*.md
 docs/superpowers/
+
+.omc/
