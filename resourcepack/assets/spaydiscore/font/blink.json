@@ -1,0 +1,191 @@
+{
+  "providers": [
+    {
+      "type": "space",
+      "advances": {
+        "\ue000": 0,
+        "\ue015": 0
+      }
+    },
+    {
+      "type": "bitmap",
+      "file": "spaydiscore:font/blink/frame_01.png",
+      "height": 1024,
+      "ascent": 509,
+      "chars": [
+        "\ue001"
+      ]
+    },
+    {
+      "type": "bitmap",
+      "file": "spaydiscore:font/blink/frame_02.png",
+      "height": 1024,
+      "ascent": 509,
+      "chars": [
+        "\ue002"
+      ]
+    },
+    {
+      "type": "bitmap",
+      "file": "spaydiscore:font/blink/frame_03.png",
+      "height": 1024,
+      "ascent": 509,
+      "chars": [
+        "\ue003"
+      ]
+    },
+    {
+      "type": "bitmap",
+      "file": "spaydiscore:font/blink/frame_04.png",
+      "height": 1024,
+      "ascent": 509,
+      "chars": [
+        "\ue004"
+      ]
+    },
+    {
+      "type": "bitmap",
+      "file": "spaydiscore:font/blink/frame_05.png",
+      "height": 1024,
+      "ascent": 509,
+      "chars": [
+        "\ue005"
+      ]
+    },
+    {
+      "type": "bitmap",
+      "file": "spaydiscore:font/blink/frame_06.png",
+      "height": 1024,
+      "ascent": 509,
+      "chars": [
+        "\ue006"
+      ]
+    },
+    {
+      "type": "bitmap",
+      "file": "spaydiscore:font/blink/frame_07.png",
+      "height": 1024,
+      "ascent": 509,
+      "chars": [
+        "\ue007"
+      ]
+    },
+    {
+      "type": "bitmap",
+      "file": "spaydiscore:font/blink/frame_08.png",
+      "height": 1024,
+      "ascent": 509,
+      "chars": [
+        "\ue008"
+      ]
+    },
+    {
+      "type": "bitmap",
+      "file": "spaydiscore:font/blink/frame_09.png",
+      "height": 1024,
+      "ascent": 509,
+      "chars": [
+        "\ue009"
+      ]
+    },
+    {
+      "type": "bitmap",
+      "file": "spaydiscore:font/blink/frame_10.png",
+      "height": 1024,
+      "ascent": 509,
+      "chars": [
+        "\ue00a"
+      ]
+    },
+    {
+      "type": "bitmap",
+      "file": "spaydiscore:font/blink/frame_11.png",
+      "height": 1024,
+      "ascent": 509,
+      "chars": [
+        "\ue00b"
+      ]
+    },
+    {
+      "type": "bitmap",
+      "file": "spaydiscore:font/blink/frame_12.png",
+      "height": 1024,
+      "ascent": 509,
+      "chars": [
+        "\ue00c"
+      ]
+    },
+    {
+      "type": "bitmap",
+      "file": "spaydiscore:font/blink/frame_13.png",
+      "height": 1024,
+      "ascent": 509,
+      "chars": [
+        "\ue00d"
+      ]
+    },
+    {
+      "type": "bitmap",
+      "file": "spaydiscore:font/blink/frame_14.png",
+      "height": 1024,
+      "ascent": 509,
+      "chars": [
+        "\ue00e"
+      ]
+    },
+    {
+      "type": "bitmap",
+      "file": "spaydiscore:font/blink/frame_15.png",
+      "height": 1024,
+      "ascent": 509,
+      "chars": [
+        "\ue00f"
+      ]
+    },
+    {
+      "type": "bitmap",
+      "file": "spaydiscore:font/blink/frame_16.png",
+      "height": 1024,
+      "ascent": 509,
+      "chars": [
+        "\ue010"
+      ]
+    },
+    {
+      "type": "bitmap",
+      "file": "spaydiscore:font/blink/frame_17.png",
+      "height": 1024,
+      "ascent": 509,
+      "chars": [
+        "\ue011"
+      ]
+    },
+    {
+      "type": "bitmap",
+      "file": "spaydiscore:font/blink/frame_18.png",
+      "height": 1024,
+      "ascent": 509,
+      "chars": [
+        "\ue012"
+      ]
+    },
+    {
+      "type": "bitmap",
+      "file": "spaydiscore:font/blink/frame_19.png",
+      "height": 1024,
+      "ascent": 509,
+      "chars": [
+        "\ue013"
+      ]
+    },
+    {
+      "type": "bitmap",
+      "file": "spaydiscore:font/blink/frame_20.png",
+      "height": 1024,
+      "ascent": 509,
+      "chars": [
+        "\ue014"
+      ]
+    }
+  ]
+}

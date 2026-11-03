@@ -1,0 +1,103 @@
+{
+  "model": {
+    "type": "select",
+    "property": "custom_model_data",
+    "fallback": {
+      "type": "model",
+      "model": "item/stick"
+    },
+    "cases": [
+      {
+        "when": "invisible",
+        "model": {
+          "type": "model",
+          "model": "item/invisible"
+        }
+      },
+      {
+        "when": "spdshead",
+        "model": {
+          "type": "model",
+          "model": "spaydiskin/head"
+        }
+      },
+      {
+        "when": "spdsbody",
+        "model": {
+          "type": "model",
+          "model": "spaydiskin/body"
+        }
+      },
+      {
+        "when": "spdsrightarm",
+        "model": {
+          "type": "model",
+          "model": "spaydiskin/right_arm"
+        }
+      },
+      {
+        "when": "spdsleftarm",
+        "model": {
+          "type": "model",
+          "model": "spaydiskin/left_arm"
+        }
+      },
+      {
+        "when": "spdsrightleg",
+        "model": {
+          "type": "model",
+          "model": "spaydiskin/right_leg"
+        }
+      },
+      {
+        "when": "spdsleftleg",
+        "model": {
+          "type": "model",
+          "model": "spaydiskin/left_leg"
+        }
+      },
+      {
+        "when": "meneleethead",
+        "model": {
+          "type": "model",
+          "model": "meneleetskin/head"
+        }
+      },
+      {
+        "when": "meneleetbody",
+        "model": {
+          "type": "model",
+          "model": "meneleetskin/body"
+        }
+      },
+      {
+        "when": "meneleetrightarm",
+        "model": {
+          "type": "model",
+          "model": "meneleetskin/right_arm"
+        }
+      },
+      {
+        "when": "meneleetleftarm",
+        "model": {
+          "type": "model",
+          "model": "meneleetskin/left_arm"
+        }
+      },
+      {
+        "when": "meneleetrightleg",
+        "model": {
+          "type": "model",
+          "model": "meneleetskin/right_leg"
+        }
+      },
+      {
+        "when": "meneleetleftleg",
+        "model": {
+          "type": "model",
+          "model": "meneleetskin/left_leg"
+        }
+      }
+    ]
+  }
+}

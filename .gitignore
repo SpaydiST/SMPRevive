@@ -1,0 +1,26 @@
+# build
+target/
+.mvn/wrapper/dists/
+.mvn/wrapper/*.zip
+
+# IDE
+.idea/
+*.iml
+*.class
+.claude/
+
+# local test server
+cache/
+libraries/
+logs/
+plugins/
+versions/
+world*/
+eula.txt
+server.properties
+*.log
+
+# build/verification artifacts in docs (only the Markdown notes are kept)
+docs/*
+!docs/*.md
+docs/superpowers/

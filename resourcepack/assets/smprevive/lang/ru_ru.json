@@ -1,0 +1,19 @@
+{
+  "advancements.smprevive.root.title": "Pangea SMP",
+  "advancements.smprevive.root.description": "Путь между жизнью и смертью",
+  "advancements.smprevive.first_heart.title": "Первое сердце",
+  "advancements.smprevive.first_heart.description": "Впервые увеличь запас сердец",
+  "advancements.smprevive.max_hearts.title": "Предел жизни",
+  "advancements.smprevive.max_hearts.description": "Достигни максимального количества сердец",
+  "advancements.smprevive.first_death.title": "Смерть — не конец",
+  "advancements.smprevive.first_death.description": "Переживи первую принятую системой смерть",
+  "advancements.smprevive.altar_placed.title": "Святилище жизни",
+  "advancements.smprevive.altar_placed.description": "Установи и зарегистрируй алтарь воскрешения",
+  "advancements.smprevive.revive_other.title": "Возвращение с края",
+  "advancements.smprevive.revive_other.description": "Воскреси другого игрока",
+  "advancements.smprevive.revived.title": "Снова в строю",
+  "advancements.smprevive.revived.description": "Вернись к жизни через алтарь воскрешения"
+,
+  "advancements.smprevive.failed_love.title": "Неудачная любовь",
+  "advancements.smprevive.failed_love.description": "Попробуй использовать сердце с аллергией"
+}

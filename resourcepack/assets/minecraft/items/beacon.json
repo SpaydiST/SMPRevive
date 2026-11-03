@@ -1,0 +1,19 @@
+{
+  "model": {
+    "type": "select",
+    "property": "custom_model_data",
+    "fallback": {
+      "type": "model",
+      "model": "block/beacon"
+    },
+    "cases": [
+      {
+        "when": "altar",
+        "model": {
+          "type": "model",
+          "model": "item/altar"
+        }
+      }
+    ]
+  }
+}

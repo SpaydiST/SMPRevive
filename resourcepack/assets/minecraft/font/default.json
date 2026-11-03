@@ -1,0 +1,47 @@
+{
+    "providers":
+    [
+        { "type": "bitmap", "file": "minecraft:font/logo.png", "height": 9, "ascent": 8, "chars": [ "󼱧" ] },
+        { "type": "bitmap", "file": "minecraft:font/pangea_logo.png", "height": 32, "ascent": 31, "chars": [ "Ꙣ" ] },
+        { "type": "bitmap", "file": "minecraft:font/sketch1.png", "height": 128, "ascent": 31, "chars": [ "𐃰" ] },
+        { "type": "bitmap", "file": "minecraft:font/sketch2.png", "height": 128, "ascent": 31, "chars": [ "𐃱" ] },
+        { "type": "bitmap", "file": "minecraft:font/sketch3.png", "height": 128, "ascent": 31, "chars": [ "Ӕ" ] },
+        { "type": "bitmap", "file": "minecraft:font/bed.png", "height": 9, "ascent": 8, "chars": [ "󼱥" ] },
+        { "type": "bitmap", "file": "minecraft:font/alive.png", "height": 7, "ascent": 5, "chars": [ "󼱓" ] },
+        { "type": "bitmap", "file": "minecraft:font/dead.png", "height": 7, "ascent": 5, "chars": [ "󼱔" ] },
+        { "type": "bitmap", "file": "minecraft:font/player.png", "height": 9, "ascent": 8, "chars": [ "⠀" ] },
+        { "type": "bitmap", "file": "minecraft:font/player2.png", "height": 9, "ascent": 8, "chars": [ "⠁" ] },
+        { "type": "bitmap", "file": "minecraft:font/admin.png", "height": 9, "ascent": 8, "chars": [ "⠂" ] },
+        { "type": "bitmap", "file": "minecraft:font/admin2.png", "height": 9, "ascent": 8, "chars": [ "⠃" ] },
+        { "type": "bitmap", "file": "minecraft:font/media.png", "height": 9, "ascent": 8, "chars": [ "⠄" ] },
+        { "type": "bitmap", "file": "minecraft:font/media2.png", "height": 9, "ascent": 8, "chars": [ "⠅" ] },
+        { "type": "bitmap", "file": "minecraft:font/altar.png", "height": 256, "ascent": 31, "chars": [ "󼰥" ] },
+        { "type": "bitmap", "file": "minecraft:font/casino.png", "height": 256, "ascent": 31, "chars": [ "ꚇ" ] },
+        { "type": "bitmap", "file": "minecraft:font/leet.png", "height": 9, "ascent": 8, "chars": [ "⠇" ] },
+        { "type": "bitmap", "file": "minecraft:font/leet2.png", "height": 9, "ascent": 8, "chars": [ "⠈" ] },
+        { "type": "bitmap", "file": "minecraft:font/spaydis.png", "height": 9, "ascent": 8, "chars": [ "⠉" ] },
+        { "type": "bitmap", "file": "minecraft:font/spaydis2.png", "height": 9, "ascent": 8, "chars": [ "⠊" ] },
+        { "type": "bitmap", "file": "minecraft:font/bed2.png", "height": 9, "ascent": 8, "chars": [ "󼱐" ] },
+        { "type": "bitmap", "file": "minecraft:font/negative_space.png", "height": -3, "ascent": -9999, "chars": [ "󼰀" ] },
+        { "type": "bitmap", "file": "minecraft:font/negative_space.png", "height": -50, "ascent": -9999, "chars": [ "󼰁" ] },
+        { "type": "bitmap", "file": "minecraft:font/negative_space.png", "height": -259, "ascent": -9999, "chars": [ "󼰂" ] },
+        { "type": "bitmap", "file": "minecraft:font/negative_space.png", "height": -211, "ascent": -9999, "chars": [ "󼰃" ] },
+		{
+		  "type": "bitmap",
+		  "file": "minecraft:font/my_font.png",
+		  "ascent": 8,
+		  "height": 8,
+		  "chars": [
+			"\uE000\uE001\uE002\uE003\uE004\uE005\uE006\uE007\uE008\uE009\uE00A\uE00B\uE00C\uE00D\uE00E\uE00F",
+			"\uE010\uE011\uE012\uE013\uE014\uE015\uE016\uE017\uE018\uE019\uE01A\uE01B\uE01C\uE01D\uE01E\uE01F",
+			"\uE020\uE021\uE022\uE023\uE024\uE025\uE026\uE027\uE028\uE029\uE02A\uE02B\uE02C\uE02D\uE02E\uE02F",
+			"\uE030\uE031\uE032\uE033\uE034\uE035\uE036\uE037\uE038\uE039\uE03A\uE03B\uE03C\uE03D\uE03E\uE03F",
+			"\uE040\uE041\uE042\uE043\uE044\uE045\uE046\uE047\uE048\uE049\uE04A\uE04B\uE04C\uE04D\uE04E\uE04F",
+			"\uE050\uE051\uE052\uE053\uE054\uE055\uE056\uE057\uE058\uE059\uE05A\uE05B\uE05C\uE05D\uE05E\uE05F",
+			"\uE060\uE061\uE062\uE063\uE064\uE065\uE066\uE067\uE068\uE069\uE06A\uE06B\uE06C\uE06D\uE06E\uE06F",
+			"\uE070\uE071\uE072\uE073\uE074\uE075\uE076\uE077\uE078\uE079\uE07A\uE07B\uE07C\uE07D\uE07E\uE07F",
+			"\uE080\uE081\uE082\uE083\uE084\uE085\uE086\uE087\uE088\uE089\uE08A\uE08B\uE08C\uE08D\uE08E\uE08F"
+		  ]
+		}
+    ]
+}

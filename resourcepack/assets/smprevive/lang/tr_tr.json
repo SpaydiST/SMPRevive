@@ -1,0 +1,19 @@
+{
+  "advancements.smprevive.root.title": "Pangea SMP",
+  "advancements.smprevive.root.description": "Yaşam ile ölüm arasındaki yol",
+  "advancements.smprevive.first_heart.title": "İlk Kalp",
+  "advancements.smprevive.first_heart.description": "Kalp sayını ilk kez artır",
+  "advancements.smprevive.max_hearts.title": "Yaşam Sınırı",
+  "advancements.smprevive.max_hearts.description": "Yapılandırılmış en yüksek kalp sayısına ulaş",
+  "advancements.smprevive.first_death.title": "Ölüm Son Değil",
+  "advancements.smprevive.first_death.description": "Kabul edilen ilk ölümünden sağ çık",
+  "advancements.smprevive.altar_placed.title": "Yaşam Mabedi",
+  "advancements.smprevive.altar_placed.description": "Bir diriltme sunağı yerleştir ve kaydet",
+  "advancements.smprevive.revive_other.title": "Uçurumdan Dönüş",
+  "advancements.smprevive.revive_other.description": "Başka bir oyuncuyu dirilt",
+  "advancements.smprevive.revived.title": "Yeniden İş Başında",
+  "advancements.smprevive.revived.description": "Bir diriltme sunağıyla hayata dön"
+,
+  "advancements.smprevive.failed_love.title": "Failed Love",
+  "advancements.smprevive.failed_love.description": "Try to use a heart while suffering from a heart allergy"
+}

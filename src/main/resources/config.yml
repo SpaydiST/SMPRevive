@@ -1,0 +1,96 @@
+# SMP Revive Configuration
+
+# Default locale for broadcasts and console messages (en_us, ru_ru)
+default-locale: "en_us"
+
+# Worlds where the revive mechanics are disabled
+disabled-worlds: []
+
+# New players wait in SpaydisCore's spaydiscore:limbo dimension.
+# SpaydisCore must be enabled for newcomer arrival and /event newbie start.
+
+# Fallback random-spawn radius used by /event start when RandomSpawnPlus is unavailable
+event:
+  spawn-radius: 0
+  # /event newbie start: once the white cloud has formed, Toolkit's TNT helmet flies out of it
+  # to a random player within `radius` blocks of the cloud and is put on their head.
+  # A helmet they were already wearing is thrown out of them.
+  tnt-head:
+    enabled: true
+    radius: 100
+
+# Applied only by an administrator using /revive difficulty <easy|normal|hard>.
+# Event radius is the fallback; RandomSpawnPlus can override it per world.
+admin-presets:
+  easy:
+    tokens-required: 80
+    event-spawn-radius: 250
+  normal:
+    tokens-required: 160
+    event-spawn-radius: 500
+  hard:
+    tokens-required: 320
+    event-spawn-radius: 1000
+
+# Minimum hearts a player can keep (below this no hearts drop on death)
+min-hearts: 5
+
+# Maximum hearts a player can have (hard limit: 512; Bukkit max health is 1024 HP)
+max-hearts: 20
+
+# Starting hearts for new players
+start-hearts: 10
+
+# Number of items required around the head at the altar to revive (1-512)
+tokens-required: 160
+
+# Casino animation duration (ticks, 20 ticks = 1 second)
+casino-duration-ticks: 60
+
+# Casino animation period (ticks)
+casino-period-ticks: 2
+
+# Material for hearts (default: HEART_OF_THE_SEA)
+heart-material: "HEART_OF_THE_SEA"
+
+# Material for the altar block in the world
+altar-block-material: "BEACON"
+
+# Invisible collision block used under the custom altar display
+altar-hitbox-material: "BARRIER"
+
+# Material for altar items given by /revive giveblock and /revive giveunbreak
+altar-item-material: "BEACON"
+
+# Saved coordinates of altars placed from /revive giveunbreak items
+unbreakable-altars: []
+
+# Spawn radius around altar (NxN area, default 15 = 15x15 blocks; 0-128)
+spawn-radius: 15
+
+# Free first death - player respawns immediately with a warning
+free-first-death: true
+
+# Default gamemode after revive (SURVIVAL, CREATIVE, ADVENTURE, SPECTATOR)
+default-gamemode: "SURVIVAL"
+
+# Custom inventory titles for resource pack support
+# Use special Unicode characters for bitmap fonts (e.g. "§f󼰁󼰥󼰂" for altar)
+# These are complete titles; no localized text is appended to the texture glyphs.
+altar-title: "§f󼰁󼰥󼰂"
+casino-title: "§f󼰁ꚇ󼰂"
+
+# Casino pool - possible materials that can be chosen
+# When a player first joins or /reviveitem is used, they spin the casino
+# and pick a material. That material becomes their REQUIRED item for revival.
+casino-pool:
+  - "DIAMOND"
+  - "EMERALD"
+  - "GOLD_INGOT"
+  - "IRON_INGOT"
+  - "NETHERITE_INGOT"
+  - "LAPIS_LAZULI"
+  - "REDSTONE"
+  - "AMETHYST_SHARD"
+  - "COPPER_INGOT"
+  - "QUARTZ"

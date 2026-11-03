@@ -1,0 +1,26 @@
+{
+  "parent": "smprevive:root",
+  "display": {
+    "icon": {
+      "id": "minecraft:bone",
+      "count": 1
+    },
+    "title": {
+      "translate": "advancements.smprevive.first_death.title",
+      "fallback": "Смерть — не конец"
+    },
+    "description": {
+      "translate": "advancements.smprevive.first_death.description",
+      "fallback": "Переживи первую принятую системой смерть"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "unlock": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

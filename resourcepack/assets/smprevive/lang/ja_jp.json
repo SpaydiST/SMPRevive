@@ -1,0 +1,19 @@
+{
+  "advancements.smprevive.root.title": "Pangea SMP",
+  "advancements.smprevive.root.description": "生と死の間の道",
+  "advancements.smprevive.first_heart.title": "最初の心臓",
+  "advancements.smprevive.first_heart.description": "初めてハートの数を増やす",
+  "advancements.smprevive.max_hearts.title": "生命の限界",
+  "advancements.smprevive.max_hearts.description": "設定された最大ハート数に到達する",
+  "advancements.smprevive.first_death.title": "死は終わりではない",
+  "advancements.smprevive.first_death.description": "初めて受け入れられた死を乗り越える",
+  "advancements.smprevive.altar_placed.title": "生命の聖域",
+  "advancements.smprevive.altar_placed.description": "復活の祭壇を設置して登録する",
+  "advancements.smprevive.revive_other.title": "瀬戸際からの帰還",
+  "advancements.smprevive.revive_other.description": "別のプレイヤーを復活させる",
+  "advancements.smprevive.revived.title": "再び戦場へ",
+  "advancements.smprevive.revived.description": "復活の祭壇で生き返る"
+,
+  "advancements.smprevive.failed_love.title": "Failed Love",
+  "advancements.smprevive.failed_love.description": "Try to use a heart while suffering from a heart allergy"
+}

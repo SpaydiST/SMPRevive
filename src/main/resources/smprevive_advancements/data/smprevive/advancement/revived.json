@@ -1,0 +1,26 @@
+{
+  "parent": "smprevive:root",
+  "display": {
+    "icon": {
+      "id": "minecraft:sunflower",
+      "count": 1
+    },
+    "title": {
+      "translate": "advancements.smprevive.revived.title",
+      "fallback": "Снова в строю"
+    },
+    "description": {
+      "translate": "advancements.smprevive.revived.description",
+      "fallback": "Вернись к жизни через алтарь воскрешения"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "unlock": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "parent": "smprevive:root",
+  "display": {
+    "icon": {
+      "id": "minecraft:heart_of_the_sea",
+      "count": 1,
+      "components": {
+        "minecraft:custom_model_data": {
+          "strings": [
+            "heart"
+          ]
+        }
+      }
+    },
+    "title": {
+      "translate": "advancements.smprevive.failed_love.title",
+      "fallback": "Неудачная любовь"
+    },
+    "description": {
+      "translate": "advancements.smprevive.failed_love.description",
+      "fallback": "Попробуй использовать сердце с аллергией"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true
+  },
+  "criteria": {
+    "unlock": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

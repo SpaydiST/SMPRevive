@@ -1,0 +1,21 @@
+{
+  "textures": {
+    "particle": "toolkit:item/semi_frame",
+    "glass": "toolkit:item/semi_frame"
+  },
+  "elements": [
+    {
+      "from": [0, 0, 7.4],
+      "to": [16, 16, 8.6],
+      "shade": false,
+      "faces": {
+        "north": { "uv": [0, 0, 16, 16], "texture": "#glass", "tintindex": 0 },
+        "south": { "uv": [0, 0, 16, 16], "texture": "#glass", "tintindex": 0 },
+        "up":    { "uv": [0, 0, 16, 1.2], "texture": "#glass", "tintindex": 0 },
+        "down":  { "uv": [0, 0, 16, 1.2], "texture": "#glass", "tintindex": 0 },
+        "east":  { "uv": [0, 0, 1.2, 16], "texture": "#glass", "tintindex": 0 },
+        "west":  { "uv": [0, 0, 1.2, 16], "texture": "#glass", "tintindex": 0 }
+      }
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "parent": "smprevive:root",
+  "display": {
+    "icon": {
+      "id": "minecraft:beacon",
+      "count": 1,
+      "components": {
+        "minecraft:custom_model_data": {
+          "strings": [
+            "altar"
+          ]
+        }
+      }
+    },
+    "title": {
+      "translate": "advancements.smprevive.altar_placed.title",
+      "fallback": "Святилище жизни"
+    },
+    "description": {
+      "translate": "advancements.smprevive.altar_placed.description",
+      "fallback": "Установи и зарегистрируй алтарь воскрешения"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "unlock": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

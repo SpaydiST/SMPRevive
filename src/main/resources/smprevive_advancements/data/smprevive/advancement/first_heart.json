@@ -1,0 +1,33 @@
+{
+  "parent": "smprevive:root",
+  "display": {
+    "icon": {
+      "id": "minecraft:heart_of_the_sea",
+      "count": 1,
+      "components": {
+        "minecraft:custom_model_data": {
+          "strings": [
+            "heart"
+          ]
+        }
+      }
+    },
+    "title": {
+      "translate": "advancements.smprevive.first_heart.title",
+      "fallback": "Первое сердце"
+    },
+    "description": {
+      "translate": "advancements.smprevive.first_heart.description",
+      "fallback": "Впервые увеличь запас сердец"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "unlock": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

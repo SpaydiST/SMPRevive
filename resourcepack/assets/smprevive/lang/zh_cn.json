@@ -1,0 +1,19 @@
+{
+  "advancements.smprevive.root.title": "Pangea SMP",
+  "advancements.smprevive.root.description": "生与死之间的道路",
+  "advancements.smprevive.first_heart.title": "第一颗心",
+  "advancements.smprevive.first_heart.description": "首次增加你的心数",
+  "advancements.smprevive.max_hearts.title": "生命上限",
+  "advancements.smprevive.max_hearts.description": "达到配置的最大心数",
+  "advancements.smprevive.first_death.title": "死亡并非终点",
+  "advancements.smprevive.first_death.description": "挺过第一次被系统接受的死亡",
+  "advancements.smprevive.altar_placed.title": "生命圣所",
+  "advancements.smprevive.altar_placed.description": "放置并注册复活祭坛",
+  "advancements.smprevive.revive_other.title": "绝处逢生",
+  "advancements.smprevive.revive_other.description": "复活另一名玩家",
+  "advancements.smprevive.revived.title": "重返战场",
+  "advancements.smprevive.revived.description": "通过复活祭坛重获新生"
+,
+  "advancements.smprevive.failed_love.title": "Failed Love",
+  "advancements.smprevive.failed_love.description": "Try to use a heart while suffering from a heart allergy"
+}

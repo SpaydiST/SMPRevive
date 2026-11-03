@@ -1,0 +1,19 @@
+{
+  "advancements.smprevive.root.title": "Pangea SMP",
+  "advancements.smprevive.root.description": "De weg tussen leven en dood",
+  "advancements.smprevive.first_heart.title": "Eerste hart",
+  "advancements.smprevive.first_heart.description": "Verhoog voor het eerst je aantal harten",
+  "advancements.smprevive.max_hearts.title": "Levenslimiet",
+  "advancements.smprevive.max_hearts.description": "Bereik het ingestelde maximum aantal harten",
+  "advancements.smprevive.first_death.title": "De dood is niet het einde",
+  "advancements.smprevive.first_death.description": "Overleef je eerste geregistreerde dood",
+  "advancements.smprevive.altar_placed.title": "Heiligdom van het leven",
+  "advancements.smprevive.altar_placed.description": "Plaats en registreer een herrijzenisaltaar",
+  "advancements.smprevive.revive_other.title": "Terug van de rand",
+  "advancements.smprevive.revive_other.description": "Laat een andere speler herrijzen",
+  "advancements.smprevive.revived.title": "Weer in actie",
+  "advancements.smprevive.revived.description": "Keer terug naar het leven via een herrijzenisaltaar"
+,
+  "advancements.smprevive.failed_love.title": "Failed Love",
+  "advancements.smprevive.failed_love.description": "Try to use a heart while suffering from a heart allergy"
+}

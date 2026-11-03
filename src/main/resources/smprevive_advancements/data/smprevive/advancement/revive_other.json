@@ -1,0 +1,26 @@
+{
+  "parent": "smprevive:root",
+  "display": {
+    "icon": {
+      "id": "minecraft:golden_carrot",
+      "count": 1
+    },
+    "title": {
+      "translate": "advancements.smprevive.revive_other.title",
+      "fallback": "Возвращение с края"
+    },
+    "description": {
+      "translate": "advancements.smprevive.revive_other.description",
+      "fallback": "Воскреси другого игрока"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "unlock": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

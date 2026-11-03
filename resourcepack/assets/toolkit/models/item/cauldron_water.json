@@ -1,0 +1,16 @@
+{
+  "textures": {
+    "particle": "toolkit:item/cauldron_water",
+    "water": "toolkit:item/cauldron_water"
+  },
+  "elements": [
+    {
+      "from": [0, 9.1, 0],
+      "to": [16, 9.11, 16],
+      "faces": {
+        "up":   { "texture": "#water", "tintindex": 0, "cullface": "up" },
+        "down": { "texture": "#water", "tintindex": 0, "cullface": "down" }
+      }
+    }
+  ]
+}

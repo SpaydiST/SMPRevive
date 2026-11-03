@@ -1,0 +1,12 @@
+{
+  "model": {
+    "type": "minecraft:model",
+    "model": "toolkit:item/cauldron_honey",
+    "tints": [
+      {
+        "type": "minecraft:potion",
+        "default": 16777215
+      }
+    ]
+  }
+}

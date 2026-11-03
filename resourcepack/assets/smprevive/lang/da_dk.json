@@ -1,0 +1,19 @@
+{
+  "advancements.smprevive.root.title": "Pangea SMP",
+  "advancements.smprevive.root.description": "The path between life and death",
+  "advancements.smprevive.first_heart.title": "First Heart",
+  "advancements.smprevive.first_heart.description": "Increase your heart count for the first time",
+  "advancements.smprevive.max_hearts.title": "Life Limit",
+  "advancements.smprevive.max_hearts.description": "Reach the configured maximum number of hearts",
+  "advancements.smprevive.first_death.title": "Death Is Not the End",
+  "advancements.smprevive.first_death.description": "Survive your first accepted death",
+  "advancements.smprevive.altar_placed.title": "Sanctuary of Life",
+  "advancements.smprevive.altar_placed.description": "Place and register a revival altar",
+  "advancements.smprevive.revive_other.title": "Back from the Brink",
+  "advancements.smprevive.revive_other.description": "Revive another player",
+  "advancements.smprevive.revived.title": "Back in Action",
+  "advancements.smprevive.revived.description": "Return to life through a revival altar"
+,
+  "advancements.smprevive.failed_love.title": "Failed Love",
+  "advancements.smprevive.failed_love.description": "Try to use a heart while suffering from a heart allergy"
+}

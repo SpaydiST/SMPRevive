@@ -1,0 +1,19 @@
+{
+  "advancements.smprevive.root.title": "Pangea SMP",
+  "advancements.smprevive.root.description": "삶과 죽음 사이의 길",
+  "advancements.smprevive.first_heart.title": "첫 번째 심장",
+  "advancements.smprevive.first_heart.description": "처음으로 심장 수를 늘리세요",
+  "advancements.smprevive.max_hearts.title": "생명의 한계",
+  "advancements.smprevive.max_hearts.description": "설정된 최대 심장 수에 도달하세요",
+  "advancements.smprevive.first_death.title": "죽음은 끝이 아니다",
+  "advancements.smprevive.first_death.description": "처음으로 인정된 죽음에서 살아남으세요",
+  "advancements.smprevive.altar_placed.title": "생명의 성소",
+  "advancements.smprevive.altar_placed.description": "부활 제단을 설치하고 등록하세요",
+  "advancements.smprevive.revive_other.title": "벼랑 끝에서 돌아오다",
+  "advancements.smprevive.revive_other.description": "다른 플레이어를 부활시키세요",
+  "advancements.smprevive.revived.title": "다시 전장으로",
+  "advancements.smprevive.revived.description": "부활 제단을 통해 생명으로 돌아오세요"
+,
+  "advancements.smprevive.failed_love.title": "Failed Love",
+  "advancements.smprevive.failed_love.description": "Try to use a heart while suffering from a heart allergy"
+}

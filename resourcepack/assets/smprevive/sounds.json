@@ -1,0 +1,23 @@
+{
+  "classic_hurt": {
+    "replace": true,
+    "sounds": [
+      {
+        "name": "smprevive:classic_hurt",
+        "type": "file",
+        "volume": 1.0,
+        "pitch": 1.0,
+        "weight": 1,
+        "stream": false
+      }
+    ]
+  },
+  "pangea_ambient": {
+    "sounds": [
+      {
+        "name": "smprevive:pangea_ambient",
+        "stream": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,129 @@
+# Sound Settings Configuration
+# Volume: 0.0 - 2.0 (1.0 = normal, 2.0 = max)
+# Pitch: 0.5 - 2.0 (1.0 = normal)
+
+# Enable/disable all plugin sounds
+enabled: true
+
+# Master volume multiplier for all sounds (0.0 - 2.0)
+master-volume: 1.0
+
+# Heart animation sounds
+heart:
+  start:
+    sound: "block.enchantment_table.use"
+    volume: 1.0
+    pitch: 1.2
+  rise:
+    sound: "block.enchantment_table.use"
+    volume: 1.0
+    pitch: 1.3
+  start_pickup:
+    sound: "entity.experience_orb.pickup"
+    volume: 1.0
+    pitch: 1.5
+  finish_levelup:
+    sound: "entity.player.levelup"
+    volume: 1.0
+    pitch: 1.0
+  finish_totem:
+    sound: "item.totem.use"
+    volume: 0.25
+    pitch: 1.0
+
+# /event start scene sounds
+event:
+  start:
+    sound: "block.beacon.activate"
+    volume: 1.0
+    pitch: 1.0
+  heart-rise:
+    sound: "block.enchantment_table.use"
+    volume: 0.8
+    pitch: 1.2
+  heart-center:
+    sound: "entity.experience_orb.pickup"
+    volume: 1.0
+    pitch: 1.4
+  player-rise:
+    sound: "block.beacon.power_select"
+    volume: 1.0
+    pitch: 1.1
+  border-slow:
+    sound: "block.beacon.power_select"
+    volume: 1.0
+    pitch: 0.8
+  border-fast:
+    sound: "entity.ender_dragon.growl"
+    volume: 1.0
+    pitch: 0.7
+  burst:
+    sound: "item.totem.use"
+    volume: 1.0
+    pitch: 1.0
+  land:
+    sound: "block.amethyst_block.chime"
+    volume: 0.8
+    pitch: 1.2
+
+# Altar revival sounds
+altar:
+  open:
+    sound: "block.amethyst_block.chime"
+    volume: 0.9
+    pitch: 0.8
+  error:
+    sound: "block.note_block.bass"
+    volume: 0.8
+    pitch: 0.8
+  start:
+    beacon:
+      sound: "block.beacon.power_select"
+      volume: 1.0
+      pitch: 1.2
+    dragon:
+      sound: "entity.ender_dragon.growl"
+      volume: 1.0
+      pitch: 0.6
+  phase1:
+    enchant:
+      sound: "block.enchantment_table.use"
+      volume: 1.0
+      pitch: 1.3
+    xp_pickup:
+      sound: "entity.experience_orb.pickup"
+      volume: 1.0
+      pitch: 1.5
+  phase2:
+    trident:
+      sound: "item.trident.riptide_1"
+      volume: 1.0
+      pitch: 1.2
+  finish:
+    totem:
+      sound: "item.totem.use"
+      volume: 1.0
+      pitch: 1.0
+
+# Casino sounds
+casino:
+  select:
+    sound: "block.note_block.pling"
+    volume: 0.8
+    pitch: 1.2
+  received_sound:
+    sound: "entity.player.levelup"
+    volume: 0.8
+    pitch: 1.0
+
+# Heart allergy sounds
+allergy:
+  heart_sneeze:
+    sound: "entity.panda.sneeze"
+    volume: 1.2
+    pitch: 1.15
+
+# Test sounds command
+testsound:
+  volume: 1.0
+  pitch: 1.0

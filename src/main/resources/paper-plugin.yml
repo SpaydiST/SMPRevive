@@ -1,0 +1,9 @@
+name: SMPRevive
+version: '${project.version}'
+main: macronux.smprevive.SMPRevive
+api-version: '26.3'
+bootstrapper: macronux.smprevive.SMPReviveBootstrap
+permissions:
+  smprevive.admin:
+    description: Access to SMPRevive administration commands and menus
+    default: op

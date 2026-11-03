@@ -1,0 +1,19 @@
+{
+  "advancements.smprevive.root.title": "Pangea SMP",
+  "advancements.smprevive.root.description": "Шлях між життям і смертю",
+  "advancements.smprevive.first_heart.title": "Перше серце",
+  "advancements.smprevive.first_heart.description": "Уперше збільш запас сердець",
+  "advancements.smprevive.max_hearts.title": "Межа життя",
+  "advancements.smprevive.max_hearts.description": "Досягни налаштованої максимальної кількості сердець",
+  "advancements.smprevive.first_death.title": "Смерть — це не кінець",
+  "advancements.smprevive.first_death.description": "Переживи свою першу прийняту смерть",
+  "advancements.smprevive.altar_placed.title": "Святилище життя",
+  "advancements.smprevive.altar_placed.description": "Встанови й зареєструй вівтар воскресіння",
+  "advancements.smprevive.revive_other.title": "Повернення з краю",
+  "advancements.smprevive.revive_other.description": "Воскреси іншого гравця",
+  "advancements.smprevive.revived.title": "Знову в строю",
+  "advancements.smprevive.revived.description": "Повернися до життя через вівтар воскресіння"
+,
+  "advancements.smprevive.failed_love.title": "Failed Love",
+  "advancements.smprevive.failed_love.description": "Try to use a heart while suffering from a heart allergy"
+}
