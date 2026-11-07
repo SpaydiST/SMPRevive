@@ -133,11 +133,14 @@ public final class RitualManager {
             starter.sendMessage(plugin.msg(starter, "ritual.unavailable"));
             return false;
         }
-        for (SkullRitual ritual : rituals.values()) {
-            if (sameBlock(ritual.altar(), altarBlock)) {
-                starter.sendMessage(plugin.msg(starter, "ritual.busy"));
-                return false;
-            }
+        // Rituals never stack: one at a time, and none while a shrine from an earlier one still stands.
+        if (!rituals.isEmpty() || !store.actives().isEmpty()) {
+            starter.sendMessage(plugin.msg(starter, "ritual.busy"));
+            return false;
+        }
+        if (!store.shrines().isEmpty()) {
+            starter.sendMessage(plugin.msg(starter, "ritual.exists"));
+            return false;
         }
         Location centre = altarBlock.clone().add(0.5, 1.3 + RitualRules.RISE_HEIGHT, 0.5);
         if (pickDonor(centre) == null) {
@@ -178,6 +181,18 @@ public final class RitualManager {
         if (hint.display != null && hint.display.isValid()) hint.display.remove();
         hint = null;
         return true;
+    }
+
+    /** Cancels every running ritual and gives back its skull and heart; the altar is free again. */
+    public boolean cancelRunning() {
+        boolean any = false;
+        for (SkullRitual ritual : new ArrayList<>(rituals.values())) {
+            ritual.cleanup();
+            abortRitual(ritual);
+            rituals.remove(ritual.id());
+            any = true;
+        }
+        return any;
     }
 
     public List<RitualStore.Shrine> shrines() {

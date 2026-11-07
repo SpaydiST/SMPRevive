@@ -409,7 +409,8 @@ public class Commands implements CommandExecutor, TabCompleter {
             return;
         }
         if (args.length == 1 && args[0].equalsIgnoreCase("stop")) {
-            boolean guideStopped = event.stopGuide() | this.plugin.getRitualManager().clearHint();
+            boolean guideStopped = event.stopGuide() | this.plugin.getRitualManager().clearHint()
+                | this.plugin.getRitualManager().cancelRunning();
             if (!event.isRunning()) {
                 sender.sendMessage(admin.text(sender, guideStopped ? "guide-stopped" : "event-idle"));
                 return;
