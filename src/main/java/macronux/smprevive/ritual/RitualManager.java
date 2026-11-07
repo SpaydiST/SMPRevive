@@ -10,7 +10,10 @@ import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 import macronux.smprevive.DataManager;
 import macronux.smprevive.SMPRevive;
+import io.papermc.paper.datacomponent.DataComponentTypes;
+import net.kyori.adventure.key.Key;
 import org.bukkit.Bukkit;
+import org.bukkit.Color;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -18,6 +21,7 @@ import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
 import org.bukkit.World;
+import org.bukkit.entity.Display;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.PigZombie;
@@ -69,6 +73,19 @@ public final class RitualManager {
         }
     }
 
+    /** The "put the skull here" marker of /event skull: a glowing, bobbing translucent skull from the resource pack. */
+    private static final class Hint {
+        final World world;
+        final Vector position;
+        ItemDisplay display;
+        long age;
+
+        Hint(World world, Vector position) {
+            this.world = world;
+            this.position = position;
+        }
+    }
+
     private static final class TimeState {
         double speed = 1.0;
         double carry;
@@ -84,6 +101,7 @@ public final class RitualManager {
     private final Map<UUID, Boolean> timeRequests = new HashMap<>();
     private java.lang.reflect.Method timeSpeedProbe;
     private boolean timeSpeedProbed;
+    private Hint hint;
     private BukkitTask task;
     private long tick;
 
@@ -106,6 +124,7 @@ public final class RitualManager {
         rituals.clear();
         for (ShrineView view : views.values()) removeEntity(view.display);
         views.clear();
+        clearHint();
         clocks.clear();
         timeRequests.clear();
     }
@@ -134,6 +153,7 @@ public final class RitualManager {
             starter.sendMessage(plugin.msg(starter, "ritual.unavailable"));
             return false;
         }
+        if (clearHint()) plugin.getEventManager().stopGuide();
         rituals.put(id, new SkullRitual(this, plugin, id, altarBlock));
         starter.sendMessage(plugin.msg(starter, "ritual.started"));
         return true;
@@ -147,6 +167,20 @@ public final class RitualManager {
             rituals.remove(ritual.id());
             store.removeActive(ritual.id());
         }
+    }
+
+    /** Shows the skull marker at a point until a ritual starts or {@link #clearHint()} is called. */
+    public void showHint(Location at) {
+        clearHint();
+        hint = new Hint(at.getWorld(), at.toVector());
+    }
+
+    /** Returns whether a marker was showing. */
+    public boolean clearHint() {
+        if (hint == null) return false;
+        if (hint.display != null && hint.display.isValid()) hint.display.remove();
+        hint = null;
+        return true;
     }
 
     public List<RitualStore.Shrine> shrines() {
@@ -266,6 +300,7 @@ public final class RitualManager {
 
     private void tick() {
         tick++;
+        tickHint();
         for (SkullRitual ritual : new ArrayList<>(rituals.values())) {
             boolean done;
             try {
@@ -329,6 +364,40 @@ public final class RitualManager {
             return timeSpeed != null && ((Number) timeSpeedProbe.invoke(timeSpeed, world)).doubleValue() > 0.0;
         } catch (ReflectiveOperationException | RuntimeException exception) {
             return false;
+        }
+    }
+
+    /** The marker bobs up and down, turns slowly and glows; its model is translucent in the resource pack. */
+    private void tickHint() {
+        Hint current = hint;
+        if (current == null) return;
+        World world = current.world;
+        if (Bukkit.getWorld(world.getUID()) == null) {
+            hint = null;
+            return;
+        }
+        if (!world.isChunkLoaded((int) Math.floor(current.position.getX()) >> 4,
+            (int) Math.floor(current.position.getZ()) >> 4)) return;
+        current.age++;
+        double bob = Math.sin(current.age * 0.08) * 0.35;
+        Location at = new Location(world, current.position.getX(), current.position.getY() + bob,
+            current.position.getZ(), (float) (current.age * 2.0 % 360.0), 0f);
+        if (current.display == null || !current.display.isValid()) {
+            current.display = world.spawn(at, ItemDisplay.class, spawned -> {
+                ItemStack skull = new ItemStack(Material.SKELETON_SKULL);
+                skull.setData(DataComponentTypes.ITEM_MODEL, Key.key("smprevive", "ghost_skull"));
+                spawned.setItemStack(skull);
+                spawned.setPersistent(false);
+                spawned.setTeleportDuration(2);
+                spawned.setViewRange(2.0f);
+                spawned.setGlowing(true);
+                spawned.setGlowColorOverride(Color.fromRGB(170, 60, 220));
+                spawned.setBrightness(new Display.Brightness(15, 15));
+                spawned.setTransformation(new Transformation(new Vector3f(), new AxisAngle4f(),
+                    new Vector3f(RitualRules.SKULL_SCALE), new AxisAngle4f()));
+            });
+        } else {
+            current.display.teleport(at);
         }
     }
 

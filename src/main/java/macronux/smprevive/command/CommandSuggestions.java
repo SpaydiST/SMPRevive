@@ -13,8 +13,9 @@ public final class CommandSuggestions {
         String first = args.length == 0 ? "" : args[0].toLowerCase(Locale.ROOT);
         List<String> choices = List.of();
         if (command.equals("event")) {
-            if (count == 1) choices = List.of("start", "preview", "status", "stop", "newbie");
+            if (count == 1) choices = List.of("start", "preview", "status", "stop", "newbie", "skull");
             else if (count == 2 && first.equals("newbie")) choices = List.of("start", "particles");
+            else if (first.equals("skull") && count <= 4) choices = count == 2 ? List.of("stop", "0") : List.of("0");
             else if (count >= 3 && count <= 5 && first.equals("newbie")) {
                 boolean particles = args[1].equalsIgnoreCase("particles");
                 choices = particles && count == 3 ? List.of("stop", "0") : List.of("0");

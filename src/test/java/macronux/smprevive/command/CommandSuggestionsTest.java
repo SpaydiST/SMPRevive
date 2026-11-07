@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
 public class CommandSuggestionsTest {
     @Test public void emptyPaperArgumentsOfferFirstLevelSuggestions() {
         assertTrue(CommandSuggestions.complete("revive", new String[0], List.of()).contains("menu"));
-        assertEquals(List.of("start", "preview", "status", "stop", "newbie"), CommandSuggestions.complete("event", new String[0], List.of()));
+        assertEquals(List.of("start", "preview", "status", "stop", "newbie", "skull"), CommandSuggestions.complete("event", new String[0], List.of()));
         assertEquals(List.of("Alice"), CommandSuggestions.complete("reviveitem", new String[0], List.of("Alice")));
     }
 
@@ -20,6 +20,13 @@ public class CommandSuggestionsTest {
         assertEquals(List.of("stop", "0"), CommandSuggestions.complete("event", new String[]{"newbie", "particles", ""}, List.of()));
         assertEquals(List.of("stop"), CommandSuggestions.complete("event", new String[]{"newbie", "particles", "s"}, List.of()));
         assertEquals(List.of("0"), CommandSuggestions.complete("event", new String[]{"newbie", "particles", "0", ""}, List.of()));
+    }
+
+    @Test public void skullMarkerCommandSuggestions() {
+        assertEquals(List.of("stop", "0"), CommandSuggestions.complete("event", new String[]{"skull", ""}, List.of()));
+        assertEquals(List.of("0"), CommandSuggestions.complete("event", new String[]{"skull", "0", ""}, List.of()));
+        assertEquals(List.of("0"), CommandSuggestions.complete("event", new String[]{"skull", "0", "0", ""}, List.of()));
+        assertEquals(List.of(), CommandSuggestions.complete("event", new String[]{"skull", "0", "0", "0", ""}, List.of()));
     }
 
     @Test public void routesOnlyValidArgumentPositions() {

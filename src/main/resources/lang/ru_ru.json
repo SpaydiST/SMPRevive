@@ -189,6 +189,11 @@
     "guide-stopped": "&eЧастицы-указатели остановлены.",
     "guide-idle": "&7Частицы-указатели не запущены.",
     "guide-usage": "&e/event newbie particles <x y z | stop>",
-    "guide-invalid": "&cНеверные координаты. Используйте: /event newbie particles <x y z | stop>"
+    "guide-invalid": "&cНеверные координаты. Используйте: /event newbie particles <x y z | stop>",
+    "skull-started": "&dСветящийся полупрозрачный череп и путеводная линия ведут %count% игроков в этом мире к точке %x% %y% %z%. Они исчезнут, когда начнётся ритуал. Остановить: /event skull stop",
+    "skull-stopped": "&eЧереп-маркер и линия остановлены.",
+    "skull-idle": "&7Череп-маркер не запущен.",
+    "skull-usage": "&e/event skull <x y z | stop>",
+    "skull-invalid": "&cНеверные координаты. Используйте: /event skull <x y z | stop>"
   }
 }

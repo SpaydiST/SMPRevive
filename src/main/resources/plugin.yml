@@ -13,7 +13,7 @@ commands:
     permission-message: "§cYou don't have permission to use this command!"
   event:
     description: Start the SMPRevive event scene
-    usage: /event newbie start x y z | /event newbie particles x y z|stop | /event start | /event preview | /event status | /event stop
+    usage: /event newbie start x y z | /event newbie particles x y z|stop | /event skull x y z|stop | /event start | /event preview | /event status | /event stop
     permission: smprevive.admin
     permission-message: "§cYou don't have permission to use this command!"
   newbie:

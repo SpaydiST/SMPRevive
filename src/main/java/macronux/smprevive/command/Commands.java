@@ -409,7 +409,7 @@ public class Commands implements CommandExecutor, TabCompleter {
             return;
         }
         if (args.length == 1 && args[0].equalsIgnoreCase("stop")) {
-            boolean guideStopped = event.stopGuide();
+            boolean guideStopped = event.stopGuide() | this.plugin.getRitualManager().clearHint();
             if (!event.isRunning()) {
                 sender.sendMessage(admin.text(sender, guideStopped ? "guide-stopped" : "event-idle"));
                 return;
@@ -433,6 +433,10 @@ public class Commands implements CommandExecutor, TabCompleter {
             if (event.isRunning()) sender.sendMessage(admin.text(sender, "event-running"));
             if (player.getWorld().getWorldBorder().getSize() > 10000) sender.sendMessage(admin.text(sender, "border-too-large"));
             sender.sendMessage(admin.text(sender, "radius-note"));
+            return;
+        }
+        if (args.length > 0 && args[0].equalsIgnoreCase("skull")) {
+            this.handleSkull((Player) sender, args);
             return;
         }
         if (args.length > 0 && (args[0].equalsIgnoreCase("newbie") || args[0].equalsIgnoreCase("newbies"))) {
@@ -468,6 +472,41 @@ public class Commands implements CommandExecutor, TabCompleter {
             case SETUP_FAILED -> sender.sendMessage(ChatColor.RED + "The event could not be started. Check the server log.");
         }
         admin.record(sender.getName(), null, "EVENT_START", ((Player) sender).getWorld().getName(), result.name());
+    }
+
+    /**
+     * /event skull <x y z|stop>: a translucent glowing bobbing skull at the point plus the same guide line as
+     * /event newbie particles. Both disappear as soon as a skull ritual starts.
+     */
+    private void handleSkull(Player sender, String[] args) {
+        var admin = this.plugin.getAdminTools();
+        var event = this.plugin.getEventManager();
+        var rituals = this.plugin.getRitualManager();
+        if (args.length == 2 && args[1].equalsIgnoreCase("stop")) {
+            boolean hint = rituals.clearHint();
+            boolean guide = event.stopGuide();
+            sender.sendMessage(admin.text(sender, hint || guide ? "skull-stopped" : "skull-idle"));
+            return;
+        }
+        if (args.length != 4) { sender.sendMessage(admin.text(sender, "skull-usage")); return; }
+        World world = sender.getWorld();
+        Location target;
+        try {
+            double x = Double.parseDouble(args[1]), y = Double.parseDouble(args[2]), z = Double.parseDouble(args[3]);
+            if (!Double.isFinite(x) || !Double.isFinite(y) || !Double.isFinite(z)
+                || Math.abs(x) > 29999900 || Math.abs(z) > 29999900
+                || y < world.getMinHeight() || y > world.getMaxHeight()) {
+                throw new IllegalArgumentException();
+            }
+            target = new Location(world, x, y, z);
+        } catch (IllegalArgumentException error) {
+            sender.sendMessage(admin.text(sender, "skull-invalid"));
+            return;
+        }
+        rituals.showHint(target);
+        int players = event.startGuide(world, target);
+        admin.record(sender.getName(), null, "EVENT_SKULL", args[1] + " " + args[2] + " " + args[3], "STARTED");
+        sender.sendMessage(admin.text(sender, "skull-started", "x", args[1], "y", args[2], "z", args[3], "count", players));
     }
 
     /** /event newbie particles <x y z|stop>: sparse black particles pointing every player in the sender's world to a point. */

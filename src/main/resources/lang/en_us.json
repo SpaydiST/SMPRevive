@@ -189,6 +189,11 @@
     "guide-stopped": "&eGuide particles stopped.",
     "guide-idle": "&7Guide particles are not running.",
     "guide-usage": "&e/event newbie particles <x y z | stop>",
-    "guide-invalid": "&cInvalid coordinates. Use: /event newbie particles <x y z | stop>"
+    "guide-invalid": "&cInvalid coordinates. Use: /event newbie particles <x y z | stop>",
+    "skull-started": "&dA glowing translucent skull and a guide line now lead %count% player(s) in this world to %x% %y% %z%. They vanish when a ritual starts. Stop: /event skull stop",
+    "skull-stopped": "&eSkull marker and guide line stopped.",
+    "skull-idle": "&7No skull marker is running.",
+    "skull-usage": "&e/event skull <x y z | stop>",
+    "skull-invalid": "&cInvalid coordinates. Use: /event skull <x y z | stop>"
   }
 }
