@@ -27,7 +27,7 @@ final class SkullRitual {
     private enum Phase { RISE, SPIN, SPHERE, STAR_OUT, STORM, CALM, HEART_LIFT, HEART_FLIGHT, APPROACH, SHRINK, FADE }
 
     private static final Color PURPLE = Color.fromRGB(150, 40, 200);
-    private static final Color PINK = Color.fromRGB(255, 105, 180);
+    private static final Color BLACK = Color.fromRGB(12, 12, 12);
     private static final Color WHITE = Color.WHITE;
     private static final Color RED = Color.fromRGB(255, 60, 80);
 
@@ -61,7 +61,7 @@ final class SkullRitual {
         this.world = altar.getWorld();
         this.base = new Vector(altar.getBlockX() + 0.5, altar.getBlockY() + 1.3, altar.getBlockZ() + 0.5);
         this.top = base.clone().add(new Vector(0.0, RitualRules.RISE_HEIGHT, 0.0));
-        this.skull = spawn(base, new ItemStack(Material.SKELETON_SKULL), 2.4f, false);
+        this.skull = spawn(base, new ItemStack(Material.SKELETON_SKULL), RitualRules.SKULL_SCALE, false, RitualRules.SKULL_LIFT);
         play(base, Sound.BLOCK_BEACON_ACTIVATE, 1.2f, 0.6f);
         play(base, Sound.ENTITY_WITHER_AMBIENT, 0.8f, 0.5f);
     }
@@ -83,6 +83,7 @@ final class SkullRitual {
         if (finished) return true;
         age++;
         phaseTick++;
+        if (phase != Phase.FADE) manager.requestTime(world, phase == Phase.STORM);
         if (phase.ordinal() >= Phase.STAR_OUT.ordinal() && phase.ordinal() <= Phase.SHRINK.ordinal()) {
             drawSphere(RitualRules.SPHERE_POINTS, RitualRules.SPHERE_RADIUS, PURPLE, 1.5f);
         }
@@ -148,11 +149,9 @@ final class SkullRitual {
         world.spawnParticle(Particle.REVERSE_PORTAL, at(top), 3, 0.7, 0.7, 0.7, 0.05);
         if (phaseTick == 1) play(top, Sound.BLOCK_BEACON_POWER_SELECT, 1.0f, 0.5f);
         if (phaseTick >= RitualRules.SPHERE_TICKS) {
-            star = spawn(top, new ItemStack(Material.NETHER_STAR), 0.9f, true);
-            double angle = ThreadLocalRandom.current().nextDouble(Math.PI * 2.0);
-            orbitAngle = angle;
-            starHome = top.clone().add(new Vector(Math.cos(angle) * RitualRules.ORBIT_START_RADIUS, 1.2,
-                Math.sin(angle) * RitualRules.ORBIT_START_RADIUS));
+            star = spawn(top, new ItemStack(Material.NETHER_STAR), 0.9f, true, 0.0f);
+            orbitAngle = ThreadLocalRandom.current().nextDouble(Math.PI * 2.0);
+            starHome = top.clone().add(new Vector(0.0, RitualRules.STAR_HEIGHT, 0.0));
             play(top, Sound.BLOCK_AMETHYST_BLOCK_CHIME, 1.5f, 0.6f);
             advance(Phase.STAR_OUT);
         }
@@ -191,7 +190,7 @@ final class SkullRitual {
             Location head = at(top);
             world.strikeLightningEffect(head);
             world.spawnParticle(Particle.END_ROD, head, 150, 0.3, 0.3, 0.3, 0.5);
-            knockback(head, 12.0, 1.8, 0.9);
+            knockback(head, RitualRules.STRIKE_KNOCKBACK_RADIUS, 0.7, 0.35);
             releaseStorm();
             advance(Phase.CALM);
         }
@@ -208,7 +207,7 @@ final class SkullRitual {
             return;
         }
         heartStart = donor.getLocation().toVector().add(new Vector(0.0, donor.getHeight() + 0.7, 0.0));
-        heart = spawn(heartStart, plugin.getItemManager().createHeart(), 0.8f, true);
+        heart = spawn(heartStart, plugin.getItemManager().createHeart(), 0.8f, true, 0.0f);
         play(heartStart, Sound.BLOCK_AMETHYST_BLOCK_RESONATE, 1.5f, 0.7f);
         advance(Phase.HEART_LIFT);
     }
@@ -234,16 +233,18 @@ final class SkullRitual {
         if (phaseTick >= RitualRules.HEART_FLIGHT_TICKS) advance(Phase.APPROACH);
     }
 
+    /** The star and the heart come down from above the sphere to its level and part to opposite sides. */
     private void tickApproach() {
         yaw += 2.0;
         move(skull, top, yaw);
         double u = RitualRules.smoothstep(phaseTick / (double) RitualRules.APPROACH_TICKS);
-        orbitAngle += 0.06;
-        double radius = RitualRules.ORBIT_START_RADIUS;
+        orbitAngle += 0.06 * u;
         double wobble = 1.0 - u;
-        Vector starPosition = orbit(orbitAngle, radius, 1.2 * wobble + Math.sin(age * 0.12) * 0.25 * wobble);
-        Vector heartPosition = orbit(orbitAngle + Math.PI * u, radius * (1.0 + 0.3 * Math.sin(phaseTick * 0.5) * wobble),
-            1.2 * wobble + Math.sin(phaseTick * 0.35) * wobble);
+        double height = RitualRules.STAR_HEIGHT * wobble;
+        double radius = RitualRules.ORBIT_START_RADIUS * u;
+        Vector starPosition = orbit(orbitAngle, radius, height + Math.sin(age * 0.12) * 0.25 * wobble);
+        Vector heartPosition = orbit(orbitAngle + Math.PI * u,
+            radius * (1.0 + 0.3 * Math.sin(phaseTick * 0.5) * wobble), height + Math.sin(phaseTick * 0.35) * wobble);
         move(star, starPosition, 0.0);
         move(heart, heartPosition, 0.0);
         if (u > 0.3) thread(starPosition, heartPosition);
@@ -289,7 +290,7 @@ final class SkullRitual {
     private void tickFade() {
         double t = phaseTick / (double) RitualRules.FADE_TICKS;
         int count = (int) (RitualRules.SPHERE_POINTS * Math.max(0.0, 1.0 - t));
-        drawSphere(count, RitualRules.SPHERE_RADIUS * (1.0 + 0.4 * t), PINK, 1.5f);
+        drawSphere(count, RitualRules.SPHERE_RADIUS * (1.0 + 0.4 * t), BLACK, 1.8f);
         if (phaseTick >= RitualRules.FADE_TICKS) finished = true;
     }
 
@@ -307,7 +308,7 @@ final class SkullRitual {
         if (!world.isChunkLoaded(blockX >> 4, blockZ >> 4)) return;
         Location strike = new Location(world, x, world.getHighestBlockYAt(blockX, blockZ) + 1, z);
         world.strikeLightningEffect(strike);
-        knockback(strike, 6.0, 1.3, 0.65);
+        knockback(strike, RitualRules.STRIKE_KNOCKBACK_RADIUS, 0.5, 0.3);
     }
 
     /** Lightning here is only an effect: nobody is hurt, but players close to it are thrown away from it. */
@@ -371,14 +372,14 @@ final class SkullRitual {
         display.teleport(target);
     }
 
-    private ItemDisplay spawn(Vector position, ItemStack item, float scale, boolean facePlayers) {
+    private ItemDisplay spawn(Vector position, ItemStack item, float scale, boolean facePlayers, float lift) {
         return world.spawn(at(position), ItemDisplay.class, display -> {
             display.setItemStack(item);
             display.setPersistent(false);
             display.setTeleportDuration(2);
             display.setViewRange(2.0f);
             if (facePlayers) display.setBillboard(Display.Billboard.CENTER);
-            display.setTransformation(new Transformation(new Vector3f(), new AxisAngle4f(),
+            display.setTransformation(new Transformation(new Vector3f(0.0f, lift, 0.0f), new AxisAngle4f(),
                 new Vector3f(scale, scale, scale), new AxisAngle4f()));
         });
     }

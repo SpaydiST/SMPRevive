@@ -29,6 +29,12 @@ ritual:
   storm-weather: true
   # Rare zombified piglins and zoglins around the finished shrine
   mobs: true
+  # The world clock runs faster during the ritual (TimeSpeed-style): `time-speed` times normal,
+  # `storm-time-speed` times normal while the lightning falls, so days flash by.
+  # TimeSpeed itself is left alone while it is rewinding that world.
+  time-acceleration: true
+  time-speed: 4
+  storm-time-speed: 300
 
 # Applied only by an administrator using /revive difficulty <easy|normal|hard>.
 # Event radius is the fallback; RandomSpawnPlus can override it per world.

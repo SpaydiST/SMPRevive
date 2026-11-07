@@ -37,9 +37,9 @@ import org.joml.Vector3f;
  * the head comes back after every restart.
  */
 public final class RitualManager {
-    private static final double SKULL_SCALE = 2.4;
     private static final double AMBIENCE_RANGE = 20.0;
     private static final double ACTIVE_RANGE = 96.0;
+    private static final String TIME_SPEED_PLUGIN = "TimeSpeed-plugin";
     private static final Sound[] AMBIENT = {
         Sound.AMBIENT_NETHER_WASTES_MOOD, Sound.AMBIENT_NETHER_WASTES_ADDITIONS,
         Sound.AMBIENT_CRIMSON_FOREST_MOOD, Sound.AMBIENT_CRIMSON_FOREST_ADDITIONS,
@@ -69,12 +69,21 @@ public final class RitualManager {
         }
     }
 
+    private static final class TimeState {
+        double speed = 1.0;
+        double carry;
+    }
+
     private final SMPRevive plugin;
     private final RitualStore store;
     private final Map<String, SkullRitual> rituals = new HashMap<>();
     private final Map<String, ShrineView> views = new HashMap<>();
     private final Map<UUID, Long> ambientDue = new HashMap<>();
     private final Map<UUID, WeatherState> weather = new HashMap<>();
+    private final Map<UUID, TimeState> clocks = new HashMap<>();
+    private final Map<UUID, Boolean> timeRequests = new HashMap<>();
+    private java.lang.reflect.Method timeSpeedProbe;
+    private boolean timeSpeedProbed;
     private BukkitTask task;
     private long tick;
 
@@ -97,6 +106,8 @@ public final class RitualManager {
         rituals.clear();
         for (ShrineView view : views.values()) removeEntity(view.display);
         views.clear();
+        clocks.clear();
+        timeRequests.clear();
     }
 
     /** Starts a ritual at an altar. Sends the reason and returns false when it cannot start. */
@@ -228,6 +239,12 @@ public final class RitualManager {
         }
     }
 
+    /** A running ritual asks for the world's time to run faster; the storm asks for the maximum. */
+    void requestTime(World world, boolean storm) {
+        if (!plugin.getConfig().getBoolean("ritual.time-acceleration", true)) return;
+        timeRequests.merge(world.getUID(), storm, (a, b) -> a || b);
+    }
+
     void acquireStorm(World world) {
         WeatherState state = weather.computeIfAbsent(world.getUID(), k -> new WeatherState(world.hasStorm(), world.isThundering()));
         state.holders++;
@@ -261,7 +278,58 @@ public final class RitualManager {
             }
             if (done) rituals.remove(ritual.id());
         }
+        applyTime();
         if (tick % 20 == 0) tickShrines();
+    }
+
+    /**
+     * Speeds the clock up the way TimeSpeed does: a fractional carry and a smoothed speed, then the clock is moved
+     * ahead. Normal speed during the ritual, the maximum while the storm rages. While TimeSpeed itself is
+     * rewinding or fast-forwarding a night in that world, it is left alone so the two never push the clock together.
+     */
+    private void applyTime() {
+        double base = Math.max(1.0, plugin.getConfig().getDouble("ritual.time-speed", 4.0));
+        double storm = Math.max(base, plugin.getConfig().getDouble("ritual.storm-time-speed", 300.0));
+        List<UUID> worlds = new ArrayList<>(clocks.keySet());
+        for (UUID id : timeRequests.keySet()) if (!worlds.contains(id)) worlds.add(id);
+        for (UUID id : worlds) {
+            World world = Bukkit.getWorld(id);
+            Boolean request = timeRequests.get(id);
+            TimeState state = clocks.computeIfAbsent(id, k -> new TimeState());
+            double target = request == null ? 1.0 : (request ? storm : base);
+            state.speed += (target - state.speed) * 0.15;
+            if (Math.abs(target - state.speed) < 0.01) state.speed = target;
+            if (world == null || (request == null && state.speed <= 1.0)) {
+                clocks.remove(id);
+                continue;
+            }
+            if (state.speed <= 1.0 || timeSpeedBusy(world)) continue;
+            state.carry += state.speed - 1.0;
+            int ticks = (int) state.carry;
+            state.carry -= ticks;
+            if (ticks > 0) world.setFullTime(world.getFullTime() + ticks);
+        }
+        timeRequests.clear();
+    }
+
+    /** True while the TimeSpeed plugin reports its own acceleration (sleep or /timespeed) for this world. */
+    private boolean timeSpeedBusy(World world) {
+        if (!timeSpeedProbed) {
+            timeSpeedProbed = true;
+            try {
+                var plugin = Bukkit.getPluginManager().getPlugin(TIME_SPEED_PLUGIN);
+                if (plugin != null) timeSpeedProbe = plugin.getClass().getMethod("getWorldTimeSpeed", World.class);
+            } catch (ReflectiveOperationException | RuntimeException exception) {
+                this.plugin.getLogger().info("TimeSpeed integration unavailable: " + exception.getMessage());
+            }
+        }
+        if (timeSpeedProbe == null) return false;
+        try {
+            var timeSpeed = Bukkit.getPluginManager().getPlugin(TIME_SPEED_PLUGIN);
+            return timeSpeed != null && ((Number) timeSpeedProbe.invoke(timeSpeed, world)).doubleValue() > 0.0;
+        } catch (ReflectiveOperationException | RuntimeException exception) {
+            return false;
+        }
     }
 
     private void tickShrines() {
@@ -278,8 +346,7 @@ public final class RitualManager {
             view.angle = (float) ((view.angle + 0.7f) % (Math.PI * 2.0));
             display.setInterpolationDelay(0);
             display.setInterpolationDuration(20);
-            display.setTransformation(new Transformation(new Vector3f(), new AxisAngle4f(view.angle, 0f, 1f, 0f),
-                new Vector3f((float) SKULL_SCALE), new AxisAngle4f()));
+            display.setTransformation(skullTransformation(view.angle));
 
             if (random.nextDouble() < 0.6) hellishParticles(world, head, random.nextInt(5));
             if (random.nextDouble() < 0.12) {
@@ -321,11 +388,15 @@ public final class RitualManager {
             spawned.setItemStack(new ItemStack(Material.WITHER_SKELETON_SKULL));
             spawned.setPersistent(false);
             spawned.setViewRange(2.0f);
-            spawned.setTransformation(new Transformation(new Vector3f(), new AxisAngle4f(view.angle, 0f, 1f, 0f),
-                new Vector3f((float) SKULL_SCALE), new AxisAngle4f()));
+            spawned.setTransformation(skullTransformation(view.angle));
         });
         view.display = display.getUniqueId();
         return display;
+    }
+
+    private static Transformation skullTransformation(float angle) {
+        return new Transformation(new Vector3f(0f, RitualRules.SKULL_LIFT, 0f), new AxisAngle4f(angle, 0f, 1f, 0f),
+            new Vector3f(RitualRules.SKULL_SCALE), new AxisAngle4f());
     }
 
     /** Rare zombified piglins and zoglins around the shrine; never more than a handful nearby. */

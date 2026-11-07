@@ -21,6 +21,13 @@ public final class RitualRules {
     public static final double ORBIT_END_RADIUS = 0.7;
     public static final double SPHERE_RADIUS = 1.35;
     public static final int SPHERE_POINTS = 110;
+    /** Height of the nether star above the sphere centre. */
+    public static final double STAR_HEIGHT = 3.2;
+    /** Lightning only throws players that stand this close to the spot it hit. */
+    public static final double STRIKE_KNOCKBACK_RADIUS = 3.0;
+    /** A skull item model sits below the display origin, so it is lifted by a quarter of its size to be centred. */
+    public static final float SKULL_SCALE = 1.2f;
+    public static final float SKULL_LIFT = SKULL_SCALE * 0.25f;
 
     private static final double STRIKES_START = 0.08;
     private static final double STRIKES_END = 1.6;
