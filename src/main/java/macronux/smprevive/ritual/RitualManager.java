@@ -13,7 +13,6 @@ import macronux.smprevive.SMPRevive;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import net.kyori.adventure.key.Key;
 import org.bukkit.Bukkit;
-import org.bukkit.Color;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -21,7 +20,6 @@ import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
 import org.bukkit.World;
-import org.bukkit.entity.Display;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.PigZombie;
@@ -73,7 +71,7 @@ public final class RitualManager {
         }
     }
 
-    /** The "put the skull here" marker of /event skull: a glowing, bobbing translucent skull from the resource pack. */
+    /** The "put the skull here" marker of /event skull: a bobbing translucent skull from the resource pack. */
     private static final class Hint {
         final World world;
         final Vector position;
@@ -155,7 +153,6 @@ public final class RitualManager {
         }
         if (clearHint()) plugin.getEventManager().stopGuide();
         rituals.put(id, new SkullRitual(this, plugin, id, altarBlock));
-        starter.sendMessage(plugin.msg(starter, "ritual.started"));
         return true;
     }
 
@@ -237,7 +234,6 @@ public final class RitualManager {
             return false;
         }
         donor.setMaxHealth(plugin.maxHealthForHearts(hearts - 1));
-        donor.sendMessage(plugin.msg(donor, "ritual.heart-taken").replace("%hearts%", String.valueOf(hearts - 1)));
         return true;
     }
 
@@ -253,9 +249,6 @@ public final class RitualManager {
         if (plugin.getConfig().getBoolean("ritual.mobs", true)) {
             spawnMobs(world, new Vector(shrine.x(), shrine.y(), shrine.z()), 2 + ThreadLocalRandom.current().nextInt(2));
         }
-        for (Player player : world.getNearbyPlayers(new Location(world, shrine.x(), shrine.y(), shrine.z()), 48.0)) {
-            player.sendMessage(plugin.msg(player, "ritual.complete"));
-        }
         return true;
     }
 
@@ -268,9 +261,6 @@ public final class RitualManager {
         World world = altar.getWorld();
         world.dropItemNaturally(altar.clone().add(0.5, 1.2, 0.5), new ItemStack(Material.SKELETON_SKULL));
         store.removeActive(ritual.id());
-        for (Player player : world.getNearbyPlayers(altar, 48.0)) {
-            player.sendMessage(plugin.msg(player, "ritual.aborted"));
-        }
     }
 
     /** A running ritual asks for the world's time to run faster; the storm asks for the maximum. */
@@ -367,7 +357,7 @@ public final class RitualManager {
         }
     }
 
-    /** The marker bobs up and down, turns slowly and glows; its model is translucent in the resource pack. */
+    /** The marker bobs up and down, turns slowly; its model is translucent in the resource pack. */
     private void tickHint() {
         Hint current = hint;
         if (current == null) return;
@@ -390,9 +380,6 @@ public final class RitualManager {
                 spawned.setPersistent(false);
                 spawned.setTeleportDuration(2);
                 spawned.setViewRange(2.0f);
-                spawned.setGlowing(true);
-                spawned.setGlowColorOverride(Color.fromRGB(170, 60, 220));
-                spawned.setBrightness(new Display.Brightness(15, 15));
                 spawned.setTransformation(new Transformation(new Vector3f(), new AxisAngle4f(),
                     new Vector3f(RitualRules.SKULL_SCALE), new AxisAngle4f()));
             });

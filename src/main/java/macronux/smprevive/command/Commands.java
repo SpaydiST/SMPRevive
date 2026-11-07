@@ -475,7 +475,7 @@ public class Commands implements CommandExecutor, TabCompleter {
     }
 
     /**
-     * /event skull <x y z|stop>: a translucent glowing bobbing skull at the point plus the same guide line as
+     * /event skull <x y z|stop>: a translucent bobbing skull at the point plus the same guide line as
      * /event newbie particles. Both disappear as soon as a skull ritual starts.
      */
     private void handleSkull(Player sender, String[] args) {
