@@ -233,7 +233,8 @@ public class AltarGui {
                     int left = player.getInventory().addItem(current.clone()).values().stream().mapToInt(ItemStack::getAmount).sum();
                     current.setAmount(left); source.setItem(slot, nonEmpty(current));
                 } else {
-                    int[] targets = current.getType() == Material.PLAYER_HEAD ? new int[]{headSlot} : grid;
+                    boolean headLike = current.getType() == Material.PLAYER_HEAD || current.getType() == Material.SKELETON_SKULL;
+                    int[] targets = headLike ? new int[]{headSlot} : grid;
                     for (int target : targets) {
                         ItemStack existing = nonEmpty(top.getItem(target));
                         if (existing != null && !existing.isSimilar(current)) continue;
@@ -276,6 +277,27 @@ public class AltarGui {
         player.updateInventory();
     }
 
+    /** A skeleton skull on the altar starts the wither skeleton ritual instead of a revival. */
+    private void startSkullRitual(Player player, Inventory inventory, Location altar, ItemStack skull) {
+        if (!plugin.getRitualManager().begin(player, altar)) return;
+        ItemStack[] beforeTop = snapshot(inventory.getContents());
+        List<ItemStack> beforeEscrow = GuiEscrow.read(plugin, player);
+        try {
+            ItemStack rest = skull.clone();
+            rest.setAmount(skull.getAmount() - 1);
+            inventory.setItem(headSlot, nonEmpty(rest));
+            GuiEscrow.checkpoint(plugin, player, ownedContents(player, inventory));
+            savePlayerWithoutCursor(player);
+        } catch (RuntimeException error) {
+            inventory.setContents(beforeTop);
+            GuiEscrow.checkpoint(plugin, player, beforeEscrow);
+            plugin.getRitualManager().cancel(altar);
+            sendError(player, "altar-error.transaction");
+            return;
+        }
+        player.closeInventory();
+    }
+
     private void tryRevive(Player reviver, Inventory inventory, MenuHolder holder) {
         if (!ReviveRules.allowsCustomAltarAction(reviver.getGameMode().name())) return;
         if (plugin.isMechanicsDisabled(reviver.getLocation())) return;
@@ -290,6 +312,10 @@ public class AltarGui {
         }
 
         ItemStack headItem = inventory.getItem(headSlot);
+        if (headItem != null && headItem.getType() == Material.SKELETON_SKULL) {
+            startSkullRitual(reviver, inventory, altarLocation, headItem);
+            return;
+        }
         OfflinePlayer target = plugin.getItemManager().getHeadOwner(headItem);
         if (target == null) {
             sendError(reviver, "altar-error.head-required");

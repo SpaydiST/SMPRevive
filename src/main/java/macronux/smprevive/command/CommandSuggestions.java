@@ -23,11 +23,12 @@ public final class CommandSuggestions {
             if (count == 1) choices = players;
         } else if (count == 1) {
             choices = List.of("status", "menu", "history", "diagnostics", "difficulty", "pending", "recoverhead", "resolvepayment", "giveblock", "giveunbreak",
-                "giveheart", "tokens", "sethearts", "revive", "reload", "allergy", "testsound");
+                "giveheart", "tokens", "sethearts", "revive", "reload", "allergy", "testsound", "shrine");
         } else if (count == 2) {
             choices = switch (first) {
                 case "allergy" -> List.of("give", "remove", "list");
                 case "difficulty" -> List.of("easy", "normal", "hard");
+                case "shrine" -> List.of("list", "remove");
                 case "status", "menu", "history", "giveblock", "giveunbreak", "giveheart", "tokens", "sethearts", "revive", "recoverhead" -> players;
                 default -> List.of();
             };

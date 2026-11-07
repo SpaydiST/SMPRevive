@@ -8,12 +8,17 @@ description: SMP Revive plugin for Minecraft 26.3 - Casino-based token revival s
 commands:
   revive:
     description: SMP Revive admin commands
-    usage: /revive <status|menu|history|diagnostics|difficulty|reload|giveblock|giveunbreak|giveheart|tokens|sethearts|revive|allergy>
+    usage: /revive <status|menu|history|diagnostics|difficulty|reload|giveblock|giveunbreak|giveheart|tokens|sethearts|revive|allergy|shrine>
     permission: smprevive.admin
     permission-message: "§cYou don't have permission to use this command!"
   event:
     description: Start the SMPRevive event scene
     usage: /event newbie start x y z | /event newbie particles x y z|stop | /event start | /event preview | /event status | /event stop
+    permission: smprevive.admin
+    permission-message: "§cYou don't have permission to use this command!"
+  newbie:
+    description: Control how first-time joiners arrive
+    usage: /newbie entering <on|off|status>
     permission: smprevive.admin
     permission-message: "§cYou don't have permission to use this command!"
   reviveitem:

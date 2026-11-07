@@ -42,9 +42,17 @@ public final class PlayerLifecycleListener implements Listener {
     private final java.util.Set<UUID> pendingFirstJoins = java.util.concurrent.ConcurrentHashMap.newKeySet();
     private final Map<UUID, BukkitTask> killStreakBursts = new HashMap<>();
 
+    private final java.util.function.BooleanSupplier newbieEntering;
+
     public PlayerLifecycleListener(SMPRevive plugin, HeartUseListener heartUseListener) {
+        this(plugin, heartUseListener, () -> plugin.isNewbieEntering());
+    }
+
+    PlayerLifecycleListener(SMPRevive plugin, HeartUseListener heartUseListener,
+                            java.util.function.BooleanSupplier newbieEntering) {
         this.plugin = plugin;
         this.heartUseListener = heartUseListener;
+        this.newbieEntering = newbieEntering;
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -61,9 +69,17 @@ public final class PlayerLifecycleListener implements Listener {
         NamespacedKey newbieWaitingKey = new NamespacedKey(plugin, "newbie_waiting");
         UUID uuid = player.getUniqueId();
         DataManager data = plugin.getDataManager();
-        if ((pendingFirstJoins.remove(uuid) || !player.hasPlayedBefore())
+        boolean firstJoin = pendingFirstJoins.remove(uuid) || !player.hasPlayedBefore();
+        boolean newbieEntering = this.newbieEntering.getAsBoolean();
+        if (firstJoin && newbieEntering
             && !player.getPersistentDataContainer().has(newbieWaitingKey, PersistentDataType.BYTE)) {
             player.getPersistentDataContainer().set(newbieWaitingKey, PersistentDataType.BYTE, (byte) 1);
+        }
+        if (!newbieEntering && Byte.valueOf((byte)1).equals(
+            player.getPersistentDataContainer().get(newbieWaitingKey, PersistentDataType.BYTE))
+            && !plugin.getEventManager().isNewbieParticipant(uuid)) {
+            // Newcomer holding is switched off: nobody keeps being sent back to Limbo.
+            player.getPersistentDataContainer().set(newbieWaitingKey, PersistentDataType.BYTE, (byte) 0);
         }
         if (Byte.valueOf((byte)1).equals(player.getPersistentDataContainer().get(newbieWaitingKey, PersistentDataType.BYTE))
             && !data.isDead(uuid)) {
@@ -142,6 +158,7 @@ public final class PlayerLifecycleListener implements Listener {
         if (!event.isNewPlayer()) return;
         UUID uuid = event.getConnection().getProfile().getId();
         if (uuid != null) pendingFirstJoins.add(uuid);
+        if (!newbieEntering.getAsBoolean()) return;
         World limbo = Bukkit.getWorld(new NamespacedKey("spaydiscore", "limbo"));
         if (limbo != null) event.setSpawnLocation(limbo.getSpawnLocation());
         else plugin.getLogger().severe("Newcomer spawn is waiting for SpaydisCore dimension spaydiscore:limbo");

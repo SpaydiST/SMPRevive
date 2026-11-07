@@ -37,7 +37,7 @@ public final class BuildContractChecks {
 
         require(pomText.contains("<groupId>macronux</groupId>")
                         && pomText.contains("<artifactId>SMPRevive</artifactId>")
-                        && pomText.contains("<version>1.3.6</version>")
+                        && pomText.contains("<version>1.3.7</version>")
                         && pomText.contains("<java.version>25</java.version>")
                         && pomText.contains("<paper.version>26.3.build.134-beta</paper.version>")
                         && pomText.contains("<maven.compiler.release>")

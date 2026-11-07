@@ -27,7 +27,7 @@ public final class NewbieAdmissionTest extends TestCase {
             }
             throw new AssertionError("Unexpected server call: " + method.getName());
         });
-        PlayerLifecycleListener listener = new PlayerLifecycleListener(null, null);
+        PlayerLifecycleListener listener = new PlayerLifecycleListener(null, null, () -> true);
         AsyncPlayerSpawnLocationEvent event = new AsyncPlayerSpawnLocationEvent(
             connection(NEW_PLAYER), new Location(normalWorld, 10, 64, 10), true
         );
@@ -36,6 +36,23 @@ public final class NewbieAdmissionTest extends TestCase {
 
         assertSpawn(event.getSpawnLocation(), limbo, 3, 70, 4);
         assertTrue(pendingFirstJoins(listener).contains(NEW_PLAYER));
+    }
+
+    public void testNewcomerKeepsNormalSpawnWhenNewbieEnteringIsOff() throws Exception {
+        World limbo = world("limbo", 3, 70, 4);
+        World normalWorld = world("world", 10, 64, 10);
+        Server server = proxy(Server.class, (object, method, args) -> {
+            throw new AssertionError("Limbo lookup with newbie entering off: " + method.getName());
+        });
+        PlayerLifecycleListener listener = new PlayerLifecycleListener(null, null, () -> false);
+        AsyncPlayerSpawnLocationEvent event = new AsyncPlayerSpawnLocationEvent(
+            connection(NEW_PLAYER), new Location(normalWorld, 10, 64, 10), true
+        );
+
+        withServer(server, () -> listener.onInitialSpawn(event));
+
+        assertSpawn(event.getSpawnLocation(), normalWorld, 10, 64, 10);
+        assertTrue(limbo != null);
     }
 
     public void testVeteranSpawnDoesNotInspectProfileOrChangeSpawn() throws Exception {

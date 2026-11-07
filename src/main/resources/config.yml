@@ -6,8 +6,10 @@ default-locale: "en_us"
 # Worlds where the revive mechanics are disabled
 disabled-worlds: []
 
-# New players wait in SpaydisCore's spaydiscore:limbo dimension.
+# When true, first-time joiners wait in SpaydisCore's spaydiscore:limbo dimension until an
+# administrator releases them. Off by default; switch with /newbie entering <on|off|status>.
 # SpaydisCore must be enabled for newcomer arrival and /event newbie start.
+newbie-entering: false
 
 # Fallback random-spawn radius used by /event start when RandomSpawnPlus is unavailable
 event:
@@ -18,6 +20,15 @@ event:
   tnt-head:
     enabled: true
     radius: 100
+
+# Skeleton skull ritual: put a skeleton skull in the head slot of an altar and confirm.
+# The nearest player in `donor-radius` blocks who is above min-hearts pays one heart.
+ritual:
+  donor-radius: 64
+  # Turn the world's weather to a thunderstorm while the lightning falls, then restore it
+  storm-weather: true
+  # Rare zombified piglins and zoglins around the finished shrine
+  mobs: true
 
 # Applied only by an administrator using /revive difficulty <easy|normal|hard>.
 # Event radius is the fallback; RandomSpawnPlus can override it per world.

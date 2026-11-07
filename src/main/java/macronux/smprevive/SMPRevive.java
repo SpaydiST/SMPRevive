@@ -8,6 +8,7 @@ import macronux.smprevive.command.Commands;
 import macronux.smprevive.config.LocaleManager;
 import macronux.smprevive.config.SoundConfig;
 import macronux.smprevive.event.EventManager;
+import macronux.smprevive.ritual.RitualManager;
 import macronux.smprevive.event.EventSpawnLocator;
 import macronux.smprevive.gui.CasinoGui;
 import macronux.smprevive.item.ItemManager;
@@ -53,6 +54,7 @@ public final class SMPRevive extends JavaPlugin {
     private RecoveryJournal recoveryJournal;
     private EventSpawnLocator eventSpawnLocator;
     private EventManager eventManager;
+    private RitualManager ritualManager;
     private AdminTools adminTools;
     private ProtectedItemService protectedItemService;
     private final PerformanceCounters performanceCounters = new PerformanceCounters();
@@ -102,6 +104,7 @@ public final class SMPRevive extends JavaPlugin {
         this.heartAllergyManager = new HeartAllergyManager(this);
         this.eventManager = new EventManager(this);
         this.adminTools = new AdminTools(this);
+        this.ritualManager = new RitualManager(this);
         this.itemManager.registerAltarRecipe();
         this.getServer().getPluginManager().registerEvents(this.adminTools, this);
         this.reviveListener.registerHandlers();
@@ -110,10 +113,12 @@ public final class SMPRevive extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents((Listener) this.eventManager, (Plugin) this);
         this.heartAllergyManager.start();
         this.recoveryJournal.recoverAll(this.dataManager);
+        this.ritualManager.start();
         Commands commands = new Commands(this);
         this.registerCommand("reviveitem", commands.asBasicCommand("reviveitem"));
         this.registerCommand("revive", commands.asBasicCommand("revive"));
         this.registerCommand("event", commands.asBasicCommand("event"));
+        this.registerCommand("newbie", commands.asBasicCommand("newbie"));
         Bukkit.getScheduler().runTask(this, () -> {
             this.reviveListener.initializeOnlinePlayers();
             this.reviveListener.syncAltarDisplays();
@@ -130,6 +135,7 @@ public final class SMPRevive extends JavaPlugin {
     public void onDisable() {
         if (itemManager != null) Bukkit.removeRecipe(itemManager.altarRecipeKey());
         if (protectedItemService != null) protectedItemService.shutdown();
+        if (this.ritualManager != null) this.ritualManager.shutdown();
         if (this.adminTools != null) this.adminTools.closeMenus();
         if (this.eventManager != null) {
             this.eventManager.stop(true);
@@ -315,6 +321,7 @@ public final class SMPRevive extends JavaPlugin {
     public HeartAllergyManager getHeartAllergyManager() { return this.heartAllergyManager; }
     public EventSpawnLocator getEventSpawnLocator() { return this.eventSpawnLocator; }
     public EventManager getEventManager() { return this.eventManager; }
+    public RitualManager getRitualManager() { return this.ritualManager; }
     public AdminTools getAdminTools() { return this.adminTools; }
     public PerformanceCounters getPerformanceCounters() { return this.performanceCounters; }
     // These reflection entry points are consumed by SpaydisCore; keep their names and signatures stable.
@@ -330,6 +337,36 @@ public final class SMPRevive extends JavaPlugin {
             && player != null
             && this.dataManager != null
             && !this.dataManager.hasDied(player.getUniqueId());
+    }
+    /** Whether first-time joiners are held in the Limbo dimension (/newbie entering on|off). */
+    public boolean isNewbieEntering() {
+        return this.getConfig().getBoolean("newbie-entering", false);
+    }
+    public boolean setNewbieEntering(boolean enabled) {
+        this.getConfig().set("newbie-entering", enabled);
+        return this.saveConfigSafely();
+    }
+    /**
+     * Called by SpaydisCore right after an administrator releases a player from Limbo:
+     * a player without a revival item gets a fallback item and the casino opens.
+     */
+    public boolean openCasinoIfNeeded(Player player) {
+        if (player == null || !player.isOnline() || this.dataManager == null
+            || this.isMechanicsDisabled(player.getWorld())) return false;
+        UUID uuid = player.getUniqueId();
+        if (this.dataManager.isDead(uuid) || this.dataManager.hasToken(uuid)) return false;
+        if (!this.dataManager.ensureToken(uuid)) return false;
+        player.sendMessage(this.msg(player, "casino.received").replace("%item%",
+            this.getMaterialName(player, this.dataManager.getTokenMaterial(uuid))));
+        Bukkit.getScheduler().runTaskLater(this, () -> {
+            boolean hasOpenContainer = player.getOpenInventory().getTopInventory().getType()
+                != org.bukkit.event.inventory.InventoryType.CRAFTING;
+            if (ReviveRules.shouldOpenCasino(player.isOnline(), player.isDead() || this.dataManager.isDead(uuid),
+                hasOpenContainer, this.isMechanicsDisabled(player.getWorld()), false)) {
+                this.casinoGui.open(player);
+            }
+        }, 10L);
+        return true;
     }
     public boolean reviveFromLimbo(Player target, Location spawnLocation) {
         return Bukkit.isPrimaryThread()

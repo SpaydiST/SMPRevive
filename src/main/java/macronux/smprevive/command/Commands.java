@@ -62,6 +62,40 @@ public class Commands implements CommandExecutor, TabCompleter {
         return this.execute(sender, command.getName(), args);
     }
 
+    /** /revive shrine list | remove: the wither skeleton shrines created by the skull ritual. */
+    private void handleShrine(CommandSender sender, String[] args) {
+        var rituals = this.plugin.getRitualManager();
+        String action = args.length > 1 ? args[1].toLowerCase(Locale.ROOT) : "";
+        if (action.equals("list")) {
+            var shrines = rituals.shrines();
+            if (shrines.isEmpty()) {
+                sender.sendMessage(this.plugin.msg(sender, "ritual.shrine-list-empty"));
+                return;
+            }
+            for (var shrine : shrines) {
+                World world = Bukkit.getWorld(shrine.world());
+                sender.sendMessage(this.plugin.msg(sender, "ritual.shrine-list")
+                    .replace("%world%", world == null ? shrine.world().toString() : world.getName())
+                    .replace("%x%", String.valueOf((int) shrine.x()))
+                    .replace("%y%", String.valueOf((int) shrine.y()))
+                    .replace("%z%", String.valueOf((int) shrine.z())));
+            }
+        } else if (action.equals("remove") && sender instanceof Player player) {
+            var shrine = rituals.nearestShrine(player.getLocation(), 64.0);
+            if (shrine == null) {
+                sender.sendMessage(this.plugin.msg(sender, "ritual.shrine-none-near"));
+            } else if (rituals.removeShrine(shrine)) {
+                sender.sendMessage(this.plugin.msg(sender, "ritual.shrine-removed"));
+                this.plugin.getAdminTools().record(sender.getName(), null, "SHRINE_REMOVE",
+                    (int) shrine.x() + " " + (int) shrine.y() + " " + (int) shrine.z(), "SUCCESS");
+            } else {
+                sender.sendMessage(this.plugin.msg(sender, "ritual.unavailable"));
+            }
+        } else {
+            sender.sendMessage(this.plugin.msg(sender, "ritual.shrine-usage"));
+        }
+    }
+
     private boolean execute(CommandSender sender, String commandName, String[] args) {
         if (!sender.hasPermission("smprevive.admin")) {
             sender.sendMessage(this.plugin.msg(sender, "no-permission"));
@@ -88,9 +122,19 @@ public class Commands implements CommandExecutor, TabCompleter {
             return true;
         }
 
+        if (commandName.equalsIgnoreCase("newbie")) {
+            this.handleNewbie(sender, args);
+            return true;
+        }
+
         if (args.length == 0) {
             sender.sendMessage(this.plugin.msg(sender, "cmd.usage"));
             sender.sendMessage(this.plugin.getAdminTools().text(sender, "usage"));
+            return true;
+        }
+
+        if (args[0].equalsIgnoreCase("shrine")) {
+            this.handleShrine(sender, args);
             return true;
         }
 
@@ -463,8 +507,38 @@ public class Commands implements CommandExecutor, TabCompleter {
         return this.complete(sender, command.getName(), args);
     }
 
+    /** /newbie entering <on|off|status>: whether first-time joiners are held in Limbo. */
+    private void handleNewbie(CommandSender sender, String[] args) {
+        if (args.length == 0 || !args[0].equalsIgnoreCase("entering")
+            || args.length > 2) {
+            sender.sendMessage(ChatColor.YELLOW + "/newbie entering <on|off|status>");
+            return;
+        }
+        String mode = args.length == 2 ? args[1].toLowerCase(Locale.ROOT) : "status";
+        switch (mode) {
+            case "on", "off" -> {
+                boolean enabled = mode.equals("on");
+                if (!this.plugin.setNewbieEntering(enabled)) {
+                    sender.sendMessage(ChatColor.RED + "Could not save config.yml; check the server log.");
+                    return;
+                }
+                sender.sendMessage(ChatColor.GREEN + "Newbie entering is now " + (enabled ? "ON" : "OFF")
+                    + (enabled ? ": new players wait in Limbo." : ": new players spawn normally."));
+            }
+            case "status" -> sender.sendMessage(ChatColor.YELLOW + "Newbie entering is "
+                + (this.plugin.isNewbieEntering() ? "ON" : "OFF") + ".");
+            default -> sender.sendMessage(ChatColor.YELLOW + "/newbie entering <on|off|status>");
+        }
+    }
+
     private List<String> complete(CommandSender sender, String commandName, String[] args) {
         if (!sender.hasPermission("smprevive.admin")) return List.of();
+        if (commandName.equalsIgnoreCase("newbie")) {
+            String prefix = args.length == 0 ? "" : args[args.length - 1].toLowerCase(Locale.ROOT);
+            List<String> choices = args.length <= 1 ? List.of("entering")
+                : args.length == 2 ? List.of("on", "off", "status") : List.of();
+            return choices.stream().filter(choice -> choice.startsWith(prefix)).toList();
+        }
         return CommandSuggestions.complete(commandName, args, Bukkit.getOnlinePlayers().stream().map(Player::getName).toList());
     }
 }
