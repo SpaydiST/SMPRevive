@@ -74,6 +74,15 @@ public final class ReviveRules {
         return clamp(tokensRequired, 1, MAX_TOKENS_REQUIRED);
     }
 
+    /** Each paid death raises the previous altar price by 20%, rounded up. */
+    public static int tokensRequiredAfterPaidDeaths(int base, int paidDeaths) {
+        int required = normalizeTokensRequired(base);
+        for (int death = 0; death < paidDeaths && required < MAX_TOKENS_REQUIRED; death++) {
+            required = Math.min(MAX_TOKENS_REQUIRED, (required * 6 + 4) / 5);
+        }
+        return required;
+    }
+
     public static int normalizeSpawnRadius(int radius) {
         return clamp(radius, 0, 128);
     }

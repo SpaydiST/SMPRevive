@@ -358,7 +358,7 @@ public class AltarGui {
             tokenStacks.add(new ReviveRules.TokenStack(slot, item.getType().name(), item.getAmount()));
         }
 
-        int needed = plugin.getTokensRequired();
+        int needed = plugin.getTokensRequired(targetId);
         ReviveRules.TokenSummary summary = ReviveRules.inspectAndConsume(tokenStacks, requiredMaterial.name(), needed);
         String localizedMaterial = plugin.getMaterialName(reviver, requiredMaterial.name());
         if (summary.wrongStackCount() > 0) {

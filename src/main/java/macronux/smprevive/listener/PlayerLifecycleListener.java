@@ -253,6 +253,7 @@ public final class PlayerLifecycleListener implements Listener {
             plugin.getLogger().warning("Could not persist free-first-death state for " + uuid + "; continuing without custom death state");
         }
 
+        int paidDeathsBefore = data.getPaidDeathCount(uuid);
         int hearts = data.getHearts(uuid);
         boolean pvp = killer != null && !killer.getUniqueId().equals(uuid);
         int dropped = 0;
@@ -293,8 +294,10 @@ public final class PlayerLifecycleListener implements Listener {
         int droppedCount = issued.stream().filter(items::isHeart).mapToInt(org.bukkit.inventory.ItemStack::getAmount).sum();
         data.setHearts(uuid, newHearts);
         data.setDead(uuid, true);
+        data.setPaidDeathCount(uuid, paidDeathsBefore == Integer.MAX_VALUE ? paidDeathsBefore : paidDeathsBefore + 1);
         // Keep the death transition atomic: failed persistence restores the old heart count and streak.
         if (!data.saveSafely()) {
+            data.setPaidDeathCount(uuid, paidDeathsBefore);
             data.setHearts(uuid, hearts);
             data.setDead(uuid, false);
             plugin.getProtectedItemService().unstage(deliveries);

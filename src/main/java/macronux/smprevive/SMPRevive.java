@@ -381,6 +381,14 @@ public final class SMPRevive extends JavaPlugin {
     }
     public int getStartHearts() { return this.startHearts; }
     public int getTokensRequired() { return this.tokensRequired; }
+    public int getTokensRequired(UUID playerId) {
+        int required = ReviveRules.tokensRequiredAfterPaidDeaths(
+            this.tokensRequired, this.dataManager == null ? 0 : this.dataManager.getPaidDeathCount(playerId)
+        );
+        String tokenName = this.dataManager == null ? null : this.dataManager.getTokenMaterial(playerId);
+        Material token = tokenName == null ? null : Material.matchMaterial(tokenName);
+        return token == null ? required : Math.min(required, ReviveRules.MAX_TOKEN_STACKS * token.getMaxStackSize());
+    }
     public int getCasinoDurationTicks() { return this.casinoDurationTicks; }
     public int getCasinoPeriodTicks() { return this.casinoPeriodTicks; }
     public Material getAltarBlockMaterial() { return this.altarBlockMaterial; }

@@ -283,6 +283,16 @@ public class DataManager {
         this.put(this.path(uuid) + ".has-died", value);
     }
 
+    public int getPaidDeathCount(UUID uuid) {
+        if (uuid == null) return 0;
+        return Math.max(0, this.players.getInt(this.path(uuid) + ".paid-deaths", 0));
+    }
+
+    public void setPaidDeathCount(UUID uuid, int count) {
+        if (uuid == null) return;
+        this.put(this.path(uuid) + ".paid-deaths", Math.max(0, count));
+    }
+
     public int getKillStreak(UUID uuid) {
         if (uuid == null) return 0;
         return Math.max(0, this.players.getInt(this.path(uuid) + ".kill-streak", 0));

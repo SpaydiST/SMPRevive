@@ -58,7 +58,9 @@ max-hearts: 20
 # Starting hearts for new players
 start-hearts: 10
 
-# Number of items required around the head at the altar to revive (1-512)
+# Base number of items required around the head (1-512). Each paid death raises
+# the previous price by 20%, rounded up. The eight payment slots limit the
+# price to 512 items, or fewer for materials with smaller stack sizes.
 tokens-required: 160
 
 # Casino animation duration (ticks, 20 ticks = 1 second)

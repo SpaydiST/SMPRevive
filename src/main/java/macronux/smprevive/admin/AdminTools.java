@@ -115,6 +115,7 @@ public final class AdminTools implements Listener {
                 if (item != null && item.getType() == material) available += item.getAmount();
             }
         }
+        int cost = plugin.getTokensRequired(id);
         return List.of(
             text(viewer, "player", "player", name(target)),
             text(viewer, "uuid", "uuid", id),
@@ -124,9 +125,9 @@ public final class AdminTools implements Listener {
             text(viewer, "allergy", "value", text(viewer, plugin.getHeartAllergyManager().isAllergic(id) ? "yes" : "no")),
             text(viewer, "pending-spawn", "value", text(viewer, data.hasPendingRevivalSpawn(id) ? "yes" : "no")),
             text(viewer, "token", "item", material == null ? text(viewer, "none") : plugin.getMaterialName(viewer, material.name())),
-            text(viewer, "cost", "count", plugin.getTokensRequired()),
+            text(viewer, "cost", "count", cost),
             !(viewer instanceof Player) ? text(viewer, "balance-console") : material == null ? text(viewer, "balance-unassigned")
-                : text(viewer, "balance", "count", available, "missing", Math.max(0, plugin.getTokensRequired() - available)),
+                : text(viewer, "balance", "count", available, "missing", Math.max(0, cost - available)),
             text(viewer, "cost-note")
         );
     }
@@ -155,7 +156,7 @@ public final class AdminTools implements Listener {
         if (plugin.getHeartAllergyManager().isAllergic(id)) lines.add(text(viewer, "allergy", "value", text(viewer, "yes")));
         if (data.hasPendingRevivalSpawn(id)) lines.add(text(viewer, "pending-spawn", "value", text(viewer, "yes")));
         lines.add(text(viewer, "token", "item", material == null ? text(viewer, "none") : plugin.getMaterialName(viewer, material.name())));
-        lines.add(text(viewer, "cost", "count", plugin.getTokensRequired()));
+        lines.add(text(viewer, "cost", "count", plugin.getTokensRequired(id)));
         return lines;
     }
 
